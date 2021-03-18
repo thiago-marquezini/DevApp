@@ -11,7 +11,7 @@ Algumas funcionalidades foram adicionadados ao formulario de gerenciamento de ca
 Requerimentos:
 
 - C#
-- DevExpress Component Suite
+- DevExpress WinForms Suite
 - SQLite
 - NetFramework 4.5
 - Visual Studio 2019 (possivel converter para versoes anteriores)
