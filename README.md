@@ -8,6 +8,8 @@ Algumas funcionalidades foram adicionadados ao formulario de gerenciamento de ca
 - Lancamento manual (entrada e saida)
 - ..
 
+* O Tratamento de Erros é minimo e nao há Validacao de Campos de texto. Este programa é apenas um exemplo.
+
 Requerimentos:
 
 - C#
