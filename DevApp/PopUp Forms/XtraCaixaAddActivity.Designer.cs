@@ -233,6 +233,7 @@ namespace DevApp.PopUp_Forms
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "XtraCaixaAddActivity";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Adicionar Entrada / Saida";
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();

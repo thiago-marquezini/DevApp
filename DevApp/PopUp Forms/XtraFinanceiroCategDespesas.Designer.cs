@@ -48,18 +48,18 @@ namespace DevApp.PopUp_Forms
             // simpleButton1
             // 
             this.simpleButton1.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("simpleButton1.ImageOptions.SvgImage")));
-            this.simpleButton1.Location = new System.Drawing.Point(334, 8);
+            this.simpleButton1.Location = new System.Drawing.Point(390, 8);
             this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.Size = new System.Drawing.Size(95, 44);
+            this.simpleButton1.Size = new System.Drawing.Size(111, 44);
             this.simpleButton1.TabIndex = 0;
             this.simpleButton1.Text = "Adicionar";
             // 
             // simpleButton2
             // 
             this.simpleButton2.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("simpleButton2.ImageOptions.SvgImage")));
-            this.simpleButton2.Location = new System.Drawing.Point(234, 8);
+            this.simpleButton2.Location = new System.Drawing.Point(273, 8);
             this.simpleButton2.Name = "simpleButton2";
-            this.simpleButton2.Size = new System.Drawing.Size(94, 44);
+            this.simpleButton2.Size = new System.Drawing.Size(110, 44);
             this.simpleButton2.TabIndex = 1;
             this.simpleButton2.Text = "Editar";
             // 
@@ -70,15 +70,15 @@ namespace DevApp.PopUp_Forms
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelControl1.Location = new System.Drawing.Point(0, 0);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(1015, 61);
+            this.panelControl1.Size = new System.Drawing.Size(1184, 61);
             this.panelControl1.TabIndex = 0;
             // 
             // simpleButton3
             // 
             this.simpleButton3.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("simpleButton3.ImageOptions.SvgImage")));
-            this.simpleButton3.Location = new System.Drawing.Point(10, 6);
+            this.simpleButton3.Location = new System.Drawing.Point(12, 6);
             this.simpleButton3.Name = "simpleButton3";
-            this.simpleButton3.Size = new System.Drawing.Size(95, 44);
+            this.simpleButton3.Size = new System.Drawing.Size(111, 44);
             this.simpleButton3.TabIndex = 1;
             this.simpleButton3.Text = "Imprimir";
             // 
@@ -88,15 +88,15 @@ namespace DevApp.PopUp_Forms
             this.panelControl2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelControl2.Location = new System.Drawing.Point(0, 591);
             this.panelControl2.Name = "panelControl2";
-            this.panelControl2.Size = new System.Drawing.Size(1015, 55);
+            this.panelControl2.Size = new System.Drawing.Size(1184, 55);
             this.panelControl2.TabIndex = 1;
             // 
             // gridControl1
             // 
-            this.gridControl1.Location = new System.Drawing.Point(155, 128);
+            this.gridControl1.Location = new System.Drawing.Point(32, 87);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(622, 394);
+            this.gridControl1.Size = new System.Drawing.Size(726, 394);
             this.gridControl1.TabIndex = 2;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -108,9 +108,9 @@ namespace DevApp.PopUp_Forms
             // 
             // XtraFinanceiroCategDespesas
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1015, 646);
+            this.ClientSize = new System.Drawing.Size(1184, 646);
             this.Controls.Add(this.gridControl1);
             this.Controls.Add(this.panelControl2);
             this.Controls.Add(this.panelControl1);

@@ -22,9 +22,10 @@ namespace DevApp.PopUp_Forms
 
         public XtraCaixaAddActivity(XtraMDICaixaMgr _CaixaForm, int CaixaId)
         {
+            InitializeComponent();
+
             this.CaixaId = CaixaId;
             this.CaixaForm = _CaixaForm;
-            InitializeComponent();
         }
 
         private void btnCancelAddActivity_Click(object sender, EventArgs e)

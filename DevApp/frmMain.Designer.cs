@@ -30,9 +30,9 @@ namespace DevApp
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            DevExpress.Utils.Animation.PushTransition pushTransition2 = new DevExpress.Utils.Animation.PushTransition();
-            DevExpress.Utils.SuperToolTip superToolTip2 = new DevExpress.Utils.SuperToolTip();
-            DevExpress.Utils.ToolTipItem toolTipItem2 = new DevExpress.Utils.ToolTipItem();
+            DevExpress.Utils.Animation.PushTransition pushTransition1 = new DevExpress.Utils.Animation.PushTransition();
+            DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
+            DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.barHeaderItem1 = new DevExpress.XtraBars.BarHeaderItem();
@@ -98,6 +98,7 @@ namespace DevApp
             this.barButtonItem29 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem30 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem31 = new DevExpress.XtraBars.BarButtonItem();
+            this.btnConfigAssist = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup5 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup7 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -155,6 +156,7 @@ namespace DevApp
             this.ribbon.Categories.AddRange(new DevExpress.XtraBars.BarManagerCategory[] {
             new DevExpress.XtraBars.BarManagerCategory("Ribbon", new System.Guid("7f317b4c-c7de-44f2-be99-029f72b5a7a9"))});
             this.ribbon.ExpandCollapseItem.Id = 0;
+            this.ribbon.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ribbon.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.ribbon.ExpandCollapseItem,
             this.ribbon.SearchEditItem,
@@ -213,10 +215,12 @@ namespace DevApp
             this.barButtonItem28,
             this.barButtonItem29,
             this.barButtonItem30,
-            this.barButtonItem31});
+            this.barButtonItem31,
+            this.btnConfigAssist});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 59;
+            this.ribbon.MaxItemId = 60;
             this.ribbon.Name = "ribbon";
+            this.ribbon.OptionsMenuMinWidth = 385;
             this.ribbon.OptionsTouch.ShowTouchUISelectorInSearchMenu = false;
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1,
@@ -237,7 +241,7 @@ namespace DevApp
             this.ribbon.ShowExpandCollapseButton = DevExpress.Utils.DefaultBoolean.False;
             this.ribbon.ShowSearchItem = true;
             this.ribbon.ShowToolbarCustomizeItem = false;
-            this.ribbon.Size = new System.Drawing.Size(1123, 158);
+            this.ribbon.Size = new System.Drawing.Size(1310, 158);
             this.ribbon.StatusBar = this.ribbonStatusBar;
             this.ribbon.Toolbar.ShowCustomizeItem = false;
             this.ribbon.SelectedPageChanged += new System.EventHandler(this.ribbon_SelectedPageChanged);
@@ -258,7 +262,7 @@ namespace DevApp
             // workspaceManager1
             // 
             this.workspaceManager1.TargetControl = this;
-            this.workspaceManager1.TransitionType = pushTransition2;
+            this.workspaceManager1.TransitionType = pushTransition1;
             // 
             // barSubItem1
             // 
@@ -387,9 +391,9 @@ namespace DevApp
             this.btnShowCaixa.Name = "btnShowCaixa";
             this.btnShowCaixa.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             this.btnShowCaixa.ShowItemShortcut = DevExpress.Utils.DefaultBoolean.False;
-            toolTipItem2.Text = "F3";
-            superToolTip2.Items.Add(toolTipItem2);
-            this.btnShowCaixa.SuperTip = superToolTip2;
+            toolTipItem1.Text = "F3";
+            superToolTip1.Items.Add(toolTipItem1);
+            this.btnShowCaixa.SuperTip = superToolTip1;
             this.btnShowCaixa.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem2_ItemClick);
             // 
             // barCheckItem1
@@ -649,7 +653,7 @@ namespace DevApp
             // 
             this.btnFinanceiroCategDespesas.Caption = "Categorias de Contas";
             this.btnFinanceiroCategDespesas.Id = 52;
-            this.btnFinanceiroCategDespesas.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonItem25.ImageOptions.SvgImage")));
+            this.btnFinanceiroCategDespesas.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btnFinanceiroCategDespesas.ImageOptions.SvgImage")));
             this.btnFinanceiroCategDespesas.LargeWidth = 80;
             this.btnFinanceiroCategDespesas.Name = "btnFinanceiroCategDespesas";
             this.btnFinanceiroCategDespesas.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnFinanceiroCategDespesas_ItemClick);
@@ -697,6 +701,16 @@ namespace DevApp
             this.barButtonItem31.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonItem31.ImageOptions.SvgImage")));
             this.barButtonItem31.LargeWidth = 80;
             this.barButtonItem31.Name = "barButtonItem31";
+            // 
+            // btnConfigAssist
+            // 
+            this.btnConfigAssist.Caption = "Assistente de Configuracao";
+            this.btnConfigAssist.Id = 59;
+            this.btnConfigAssist.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnConfigAssist.ImageOptions.Image")));
+            this.btnConfigAssist.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnConfigAssist.ImageOptions.LargeImage")));
+            this.btnConfigAssist.LargeWidth = 80;
+            this.btnConfigAssist.Name = "btnConfigAssist";
+            this.btnConfigAssist.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnConfigAssist_ItemClick);
             // 
             // ribbonPage1
             // 
@@ -844,6 +858,7 @@ namespace DevApp
             // 
             // ribbonPageGroup8
             // 
+            this.ribbonPageGroup8.ItemLinks.Add(this.btnConfigAssist);
             this.ribbonPageGroup8.Name = "ribbonPageGroup8";
             this.ribbonPageGroup8.Text = "Sistema";
             // 
@@ -875,7 +890,7 @@ namespace DevApp
             this.ribbonStatusBar.Location = new System.Drawing.Point(0, 678);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
-            this.ribbonStatusBar.Size = new System.Drawing.Size(1123, 24);
+            this.ribbonStatusBar.Size = new System.Drawing.Size(1310, 24);
             // 
             // popupMenu1
             // 
@@ -949,11 +964,13 @@ namespace DevApp
             this.AllowFormGlass = DevExpress.Utils.DefaultBoolean.True;
             this.Appearance.BackColor = System.Drawing.Color.White;
             this.Appearance.Options.UseBackColor = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.Appearance.Options.UseFont = true;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1123, 702);
+            this.ClientSize = new System.Drawing.Size(1310, 702);
             this.Controls.Add(this.ribbonStatusBar);
             this.Controls.Add(this.ribbon);
+            this.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderEffect = DevExpress.XtraEditors.FormBorderEffect.Shadow;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.IconOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("frmMain.IconOptions.SvgImage")));
@@ -1087,5 +1104,6 @@ namespace DevApp
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup20;
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage5;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup21;
+        private DevExpress.XtraBars.BarButtonItem btnConfigAssist;
     }
 }

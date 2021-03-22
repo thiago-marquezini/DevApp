@@ -11,10 +11,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using DevApp.Global;
+using DevApp.Helpers;
+using DevApp.Class_DataSource;
 using DevApp.PopUp_Forms;
 using DevApp.SQLite.Queries;
 
 using DevExpress.XtraSplashScreen;
+using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Base;
 using System.Globalization;
 
@@ -22,17 +25,19 @@ namespace DevApp.Child_Forms
 {
     public partial class XtraMDICaixaMgr : DevExpress.XtraEditors.XtraUserControl
     {
- 
         private clsCaixaQueries CaixaQueries = new clsCaixaQueries();
+        private List<ClsDSCaixaResumo> CaixaItensResumo = new List<ClsDSCaixaResumo>();
 
         public XtraMDICaixaMgr()
         {
             InitializeComponent();
-            GetCurrentCaixaInfo();
         }
 
         private void XtraMDICaixaMgr_Load(object sender, EventArgs e)
         {
+            BuildCaixaReceipt();
+            GetCurrentCaixaInfo();
+
             if (Globals.IsCaixaOpen)
             {
                 txtCaixaSaldoInicial.Enabled = false;
@@ -68,6 +73,8 @@ namespace DevApp.Child_Forms
                 txtCaixaSaldoInicial.Text = CaixaRow["startvalue"].ToString();
                 lblCaixaOpenTime.Text     = CaixaRow["openedat"].ToString();
                 memoCaixaObs.Text         = CaixaRow["obs"].ToString();
+
+                gridViewCaixaResumo.SetRowCellValue(0, "Valor", CaixaRow["startvalue"].ToString());
             }
         }
 
@@ -76,6 +83,38 @@ namespace DevApp.Child_Forms
             DataTable dt = CaixaQueries.GetCaixaActivity(Globals.CaixaId);
             gridCaixaActivity.DataSource = dt;
         }
+
+        private void BuildCaixaReceipt()
+        {
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 0,  Descricao = "(+) SALDO INICIAL",          Valor = "R$ 0,00" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 1,  Descricao = "(+) ENTRADAS NO CAIXA",      Valor = "" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 2,  Descricao = "   ACRECIMOS",               Valor = "" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 3,  Descricao = "     Dinheiro/Cheque",       Valor = "R$ 0,00" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 4,  Descricao = "     Pix/Cartao",            Valor = "R$ 0,00" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 5,  Descricao = "   TOTAL - ENTRADAS",        Valor = "" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 6,  Descricao = "     Total:",                Valor = "R$ 0,00" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 7,  Descricao = "",                           Valor = "" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 8,  Descricao = "(+) SAIDAS NO CAIXA",        Valor = "" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 9,  Descricao = "   SANGRIAS E DESPESAS",     Valor = "" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 10, Descricao = "     Dinheiro/Cheque",       Valor = "R$ 0,00" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 11, Descricao = "     Pix/Cartao",            Valor = "R$ 0,00" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 12, Descricao = "",                           Valor = "" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 13, Descricao = "(=) SALDO FINAL",            Valor = "" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 14, Descricao = "   Somente Dinheiro",        Valor = "R$ 0,00" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 15, Descricao = "   TUDO:",                   Valor = "R$ 0,00" });
+
+            gridCaixaResumo.DataSource = CaixaItensResumo;
+
+            gridCaixaResumo.MainView.BeginUpdate();
+            try
+            {
+                gridViewCaixaResumo.Appearance.Empty.BackColor = Color.Transparent;
+                gridViewCaixaResumo.Appearance.Row.BackColor = Color.Transparent;
+            }
+            finally { gridCaixaResumo.MainView.EndUpdate(); }
+        }
+
+
 
         private void btnDeleteActivity_Click(object sender, EventArgs e)
         {
@@ -100,6 +139,32 @@ namespace DevApp.Child_Forms
             CaixaAddActivity.ShowDialog(this);
         }
 
+        private void btnPrintMovCaixa_Click(object sender, EventArgs e)
+        {
+            // Check whether the LayoutControl can be previewed.
+            if (!gridCaixaActivity.IsPrintingAvailable)
+            {
+                MessageBox.Show("The 'DevExpress.XtraPrinting' library is not found", "Error");
+                return;
+            }
+
+            // Open the Preview window.
+            gridCaixaActivity.ShowPrintPreview();
+        }
+
+        private void btnPrintResumoCaixa_Click(object sender, EventArgs e)
+        {
+            // Check whether the LayoutControl can be previewed.
+            if (!gridCaixaResumo.IsPrintingAvailable)
+            {
+                MessageBox.Show("The 'DevExpress.XtraPrinting' library is not found", "Error");
+                return;
+            }
+
+            // Open the Preview window.
+            gridCaixaResumo.ShowPrintPreview();
+        }
+
         private void btnCaixaOpenClose_Click(object sender, EventArgs e)
         {
             if (Globals.IsCaixaOpen)
@@ -110,7 +175,7 @@ namespace DevApp.Child_Forms
                 CloseCaixaDialog.WindowState = FormWindowState.Normal;
                 CloseCaixaDialog.ShowDialog(this);
 
-                while (!CloseCaixaDialog.DecisionMade) { Thread.Sleep(500); } // each form has its own thread
+                while (!CloseCaixaDialog.DecisionMade) { Thread.Sleep(500); }
 
                 switch (CloseCaixaDialog.DecisionId)
                 {
@@ -149,12 +214,9 @@ namespace DevApp.Child_Forms
 
                     gridCaixaActivity.DataSource = null;
 
-                    goto Exit; // Not needed :) but I feel good to add it
+                    goto Exit;
                 }
 
-                // this is what the goto exit; is going to do:
-                // .. nothing
-                // nothing ends here, lets do what was going to be done anyway
                 Exit:
                 Thread.Sleep(1); // just because a label requires some code after declaration
 
@@ -190,7 +252,24 @@ namespace DevApp.Child_Forms
                 if (ActivityType == "pedido") { btnDeleteActivity.Enabled = false; } else { btnDeleteActivity.Enabled = true; }
             }
         }
-        
+
+        private void gridViewCaixaResumo_CustomDrawCell(object sender, RowCellCustomDrawEventArgs e)
+        {
+            if ((e.RowHandle == 0) || (e.RowHandle == 1) || (e.RowHandle == 2)
+                || (e.RowHandle == 5) || (e.RowHandle == 8) || (e.RowHandle == 9)
+                || (e.RowHandle == 13) || (e.RowHandle == 15))
+            {
+                e.Appearance.FontStyleDelta = FontStyle.Bold;
+            }
+
+            if ((e.RowHandle == 2) || (e.RowHandle == 5) || (e.RowHandle == 9))
+            {
+                if (e.Column.FieldName == "Descricao")
+                {
+                    e.Appearance.ForeColor = Color.DimGray;
+                }
+            }
+        }
 
         private void gridViewCaixaActivity_CustomColumnDisplayText(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e)
         {
@@ -212,5 +291,46 @@ namespace DevApp.Child_Forms
                 }
             }
         }
+
+        private void gridViewCaixaActivity_CustomDrawCell(object sender, RowCellCustomDrawEventArgs e)
+        {
+            if (e.Column.FieldName == "entrada")
+            {
+                if (e.DisplayText.Length > 0)
+                {
+                    String RawNumber = e.DisplayText.Replace("R$ ", "").Replace(".", "").Replace(",", "");
+                    if (Int32.Parse(RawNumber) > 0)
+                    {
+                        Brush brush = new SolidBrush(Color.Green);
+                        Rectangle r = e.Bounds;
+                        e.Graphics.FillRectangle(brush, r.X, r.Y, 3, r.Height);
+                        e.Appearance.DrawString(e.Cache, "    " + e.DisplayText, r);
+                        e.Handled = true;
+                     }
+                }
+            }
+
+            if (e.Column.FieldName == "saida")
+            {
+                if (e.DisplayText.Length > 0)
+                {
+                    String RawNumber = e.DisplayText.Replace("R$ ", "").Replace(".", "").Replace(",", "");
+                    if (Int32.Parse(RawNumber) > 0)
+                    {
+                        Brush brush = new SolidBrush(Color.Red);
+                        Rectangle r = e.Bounds;
+                        e.Graphics.FillRectangle(brush, r.X, r.Y, 3, r.Height);
+                        e.Appearance.DrawString(e.Cache, "    " + e.DisplayText, r);
+                        e.Handled = true;
+                    }
+                }
+            }
+        }
+
+        private void gridViewCaixaResumo_RowCellStyle(object sender, RowCellStyleEventArgs e)
+        {
+        }
+
+       
     }
 }

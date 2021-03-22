@@ -18,6 +18,7 @@ using System.Windows.Forms;
 
 
 // Database
+using DevApp.Global;
 using DevApp.Child_Forms;
 using DevApp.PopUp_Forms;
 using DevApp.SQLite.Queries;
@@ -27,7 +28,7 @@ namespace DevApp
 {
     public partial class frmMain : DevExpress.XtraBars.Ribbon.RibbonForm
     {
-        clsUserQueries Queries = new clsUserQueries();
+        private clsUserQueries Queries = new clsUserQueries();
 
         public void SplashScreen()
         {
@@ -166,6 +167,12 @@ namespace DevApp
             CategDespesas.Text = "Categorias de Despesas";
             CategDespesas.WindowState = FormWindowState.Normal;
             CategDespesas.ShowDialog(this);
+        }
+
+        private void btnConfigAssist_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            WizardConfigureApp ConfigWizard = new WizardConfigureApp();
+            ConfigWizard.Show();
         }
     }
 }

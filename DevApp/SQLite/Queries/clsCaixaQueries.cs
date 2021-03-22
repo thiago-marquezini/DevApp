@@ -67,7 +67,7 @@ namespace DevApp.SQLite.Queries
 
         public bool AddCaixaActivity(int CaixaId, int Payment, int Direction, string Value, int Category, int Supply)
         {
-            string sPayment = (Payment == 0) ? "Dinheiro" : "Cheque";
+            string sPayment = (Payment == 0) ? "Dinheiro" : (Payment == 1) ? "Cheque" : (Payment == 2) ? "Debito/Credito" : (Payment == 3) ? "PIX" : "Unknown";
             string sEntrada = (Direction == 2) ? Value : "";
             string sSaida   = (Direction == 0 || Direction == 1) ? Value : "";
             string Desc     = (Direction == 0) ? "Saida - Despesa" : (Direction == 1) ? "Saida - Sangria" : "Entrada - Acrecimo";
