@@ -35,10 +35,11 @@ namespace DevApp.PopUp_Forms
 
         private void btnAddActivity_Click(object sender, EventArgs e)
         {
-            if (CaixaQueries.AddCaixaActivity(this.CaixaId, radioActivityType.SelectedIndex, radioOperacaoTipo.SelectedIndex, editValorActivity.Text, -1, -1))
+            if (CaixaQueries.AddCaixaActivity(this.CaixaId, radioActivityType.SelectedIndex, radioOperacaoTipo.SelectedIndex, editValorActivity.Text, -1, -1, "manual"))
             {
                 this.Close();
                 CaixaForm.GetCaixaActivity();
+                CaixaForm.CalculateResumo();
             }
         }
 

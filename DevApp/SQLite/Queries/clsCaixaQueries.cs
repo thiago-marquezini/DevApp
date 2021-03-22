@@ -32,7 +32,7 @@ namespace DevApp.SQLite.Queries
                 {
                     DataRow CaixaRow = CaixaInfo.Rows[0];
 
-                    AddCaixaActivity(Convert.ToInt32(CaixaRow["id"].ToString()), 0, 3, StartValue, -1, -1);
+                    AddCaixaActivity(Convert.ToInt32(CaixaRow["id"].ToString()), 0, 3, StartValue, -1, -1, "inicial");
                 }
                     
 
@@ -55,6 +55,11 @@ namespace DevApp.SQLite.Queries
             return SQLiteQueryHelper.QueryToDataTable("SELECT * FROM caixa WHERE isopen = 1;", null);
         }
 
+        public DataTable GetCaixaValorInicial()
+        {
+            return SQLiteQueryHelper.QueryToDataTable("SELECT startvalue FROM caixa WHERE isopen = 1;", null);
+        }
+
         public DataTable GetCaixaActivity(int CaixaId)
         {
             return SQLiteQueryHelper.QueryToDataTable("SELECT * FROM caixa_activity INNER JOIN caixa ON caixa.id = caixa_activity.id_caixa WHERE caixa.isopen = 1 AND caixa.id = @caixaid;", new SQLiteParameter[] { new SQLiteParameter("@caixaid", CaixaId) }); 
@@ -65,7 +70,7 @@ namespace DevApp.SQLite.Queries
             return SQLiteQueryHelper.ExecuteQuery("DELETE FROM caixa_activity WHERE id = @id;", new SQLiteParameter[] { new SQLiteParameter("@id", ActivityId) });
         }
 
-        public bool AddCaixaActivity(int CaixaId, int Payment, int Direction, string Value, int Category, int Supply)
+        public bool AddCaixaActivity(int CaixaId, int Payment, int Direction, string Value, int Category, int Supply, string Type)
         {
             string sPayment = (Payment == 0) ? "Dinheiro" : (Payment == 1) ? "Cheque" : (Payment == 2) ? "Debito/Credito" : (Payment == 3) ? "PIX" : "Unknown";
             string sEntrada = (Direction == 2) ? Value : "";
@@ -84,7 +89,7 @@ namespace DevApp.SQLite.Queries
                                                 new SQLiteParameter("@entrada", sEntrada),
                                                 new SQLiteParameter("@saida", sSaida),
                                                 new SQLiteParameter("@formapgto", sPayment),
-                                                new SQLiteParameter("@tipo", "manual"),
+                                                new SQLiteParameter("@tipo", Type),
                                                 new SQLiteParameter("@direction", Direction)
                                             });
                 return true;

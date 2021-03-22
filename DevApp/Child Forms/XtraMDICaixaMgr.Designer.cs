@@ -61,6 +61,7 @@ namespace DevApp.Child_Forms
             this.clnRecordId = new DevExpress.XtraGrid.Columns.GridColumn();
             this.clnRecordDescription = new DevExpress.XtraGrid.Columns.GridColumn();
             this.clnRecordValue = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.txtCalcText = new DevExpress.XtraEditors.TextEdit();
             ((System.ComponentModel.ISupportInitialize)(this.gridCaixaActivity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewCaixaActivity)).BeginInit();
             this.sidePanel1.SuspendLayout();
@@ -71,6 +72,7 @@ namespace DevApp.Child_Forms
             this.panelCaixaReceipt.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridCaixaResumo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewCaixaResumo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCalcText.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // splashScreenManager1
@@ -137,6 +139,7 @@ namespace DevApp.Child_Forms
             this.gridViewCaixaActivity.OptionsImageLoad.AsyncLoad = true;
             this.gridViewCaixaActivity.OptionsSelection.EnableAppearanceFocusedCell = false;
             this.gridViewCaixaActivity.OptionsView.GroupDrawMode = DevExpress.XtraGrid.Views.Grid.GroupDrawMode.Standard;
+            this.gridViewCaixaActivity.OptionsView.ShowFooter = true;
             this.gridViewCaixaActivity.OptionsView.ShowGroupPanel = false;
             this.gridViewCaixaActivity.OptionsView.ShowIndicator = false;
             this.gridViewCaixaActivity.OptionsView.ShowPreviewRowLines = DevExpress.Utils.DefaultBoolean.False;
@@ -354,7 +357,7 @@ namespace DevApp.Child_Forms
             this.panelCaixaReceipt.Location = new System.Drawing.Point(852, 0);
             this.panelCaixaReceipt.Margin = new System.Windows.Forms.Padding(0);
             this.panelCaixaReceipt.Name = "panelCaixaReceipt";
-            this.panelCaixaReceipt.Size = new System.Drawing.Size(265, 478);
+            this.panelCaixaReceipt.Size = new System.Drawing.Size(275, 478);
             this.panelCaixaReceipt.TabIndex = 28;
             // 
             // gridCaixaResumo
@@ -366,7 +369,7 @@ namespace DevApp.Child_Forms
             this.gridCaixaResumo.Location = new System.Drawing.Point(2, 2);
             this.gridCaixaResumo.MainView = this.gridViewCaixaResumo;
             this.gridCaixaResumo.Name = "gridCaixaResumo";
-            this.gridCaixaResumo.Size = new System.Drawing.Size(261, 474);
+            this.gridCaixaResumo.Size = new System.Drawing.Size(271, 474);
             this.gridCaixaResumo.TabIndex = 0;
             this.gridCaixaResumo.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewCaixaResumo});
@@ -388,11 +391,11 @@ namespace DevApp.Child_Forms
             this.gridViewCaixaResumo.Appearance.HorzLine.Options.UseBorderColor = true;
             this.gridViewCaixaResumo.Appearance.HorzLine.Options.UseFont = true;
             this.gridViewCaixaResumo.Appearance.Row.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.gridViewCaixaResumo.Appearance.Row.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gridViewCaixaResumo.Appearance.Row.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gridViewCaixaResumo.Appearance.Row.Options.UseFont = true;
             this.gridViewCaixaResumo.Appearance.RowSeparator.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.gridViewCaixaResumo.Appearance.RowSeparator.Options.UseBorderColor = true;
-            this.gridViewCaixaResumo.Appearance.SelectedRow.Font = new System.Drawing.Font("Courier New", 9F);
+            this.gridViewCaixaResumo.Appearance.SelectedRow.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gridViewCaixaResumo.Appearance.SelectedRow.Options.UseFont = true;
             this.gridViewCaixaResumo.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.gridViewCaixaResumo.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
@@ -441,10 +444,34 @@ namespace DevApp.Child_Forms
             this.clnRecordValue.VisibleIndex = 1;
             this.clnRecordValue.Width = 76;
             // 
+            // txtCalcText
+            // 
+            this.txtCalcText.EditValue = "R$ 0,00";
+            this.txtCalcText.Location = new System.Drawing.Point(968, 488);
+            this.txtCalcText.Name = "txtCalcText";
+            this.txtCalcText.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.txtCalcText.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCalcText.Properties.Appearance.Options.UseBackColor = true;
+            this.txtCalcText.Properties.Appearance.Options.UseFont = true;
+            this.txtCalcText.Properties.BeepOnError = false;
+            this.txtCalcText.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+            this.txtCalcText.Properties.MaskSettings.Set("MaskManagerType", typeof(DevExpress.Data.Mask.NumericMaskManager));
+            this.txtCalcText.Properties.MaskSettings.Set("MaskManagerSignature", "allowNull=False");
+            this.txtCalcText.Properties.MaskSettings.Set("culture", "pt-BR");
+            this.txtCalcText.Properties.MaskSettings.Set("mask", "c");
+            this.txtCalcText.Properties.MaskSettings.Set("hideInsignificantZeros", true);
+            this.txtCalcText.Properties.MaskSettings.Set("valueAfterDelete", DevExpress.Data.Mask.NumericMaskManager.ValueAfterDelete.ZeroThenNull);
+            this.txtCalcText.Properties.MaskSettings.Set("autoHideDecimalSeparator", true);
+            this.txtCalcText.Properties.UseMaskAsDisplayFormat = true;
+            this.txtCalcText.Size = new System.Drawing.Size(147, 26);
+            this.txtCalcText.TabIndex = 36;
+            this.txtCalcText.Visible = false;
+            // 
             // XtraMDICaixaMgr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.txtCalcText);
             this.Controls.Add(this.panelCaixaReceipt);
             this.Controls.Add(this.btnPrintResumoCaixa);
             this.Controls.Add(this.btnPrintMovCaixa);
@@ -453,7 +480,7 @@ namespace DevApp.Child_Forms
             this.Controls.Add(this.btnAddActivity);
             this.Controls.Add(this.btnDeleteActivity);
             this.Name = "XtraMDICaixaMgr";
-            this.Size = new System.Drawing.Size(1118, 527);
+            this.Size = new System.Drawing.Size(1128, 527);
             this.Load += new System.EventHandler(this.XtraMDICaixaMgr_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridCaixaActivity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewCaixaActivity)).EndInit();
@@ -467,6 +494,7 @@ namespace DevApp.Child_Forms
             this.panelCaixaReceipt.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridCaixaResumo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewCaixaResumo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCalcText.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -502,5 +530,6 @@ namespace DevApp.Child_Forms
         private DevExpress.XtraGrid.Columns.GridColumn clnRecordId;
         private DevExpress.XtraGrid.Columns.GridColumn clnRecordDescription;
         private DevExpress.XtraGrid.Columns.GridColumn clnRecordValue;
+        private DevExpress.XtraEditors.TextEdit txtCalcText;
     }
 }

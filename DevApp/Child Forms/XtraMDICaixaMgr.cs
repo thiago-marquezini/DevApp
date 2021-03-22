@@ -44,10 +44,11 @@ namespace DevApp.Child_Forms
                 btnCaixaOpenClose.Text = "Fechar Caixa";
                 btnAddActivity.Enabled = true;
                 btnDeleteActivity.Enabled = true;
-                panelCaixaStateColor.BackColor = Color.PaleGreen;
+                panelCaixaStateColor.BackColor = Color.ForestGreen;
                 lblCaixaState.Text = "Caixa Aberto";
 
                 GetCaixaActivity();
+                CalculateResumo();
             }
             else
             {
@@ -73,8 +74,96 @@ namespace DevApp.Child_Forms
                 txtCaixaSaldoInicial.Text = CaixaRow["startvalue"].ToString();
                 lblCaixaOpenTime.Text     = CaixaRow["openedat"].ToString();
                 memoCaixaObs.Text         = CaixaRow["obs"].ToString();
+            }
+        }
 
-                gridViewCaixaResumo.SetRowCellValue(0, "Valor", CaixaRow["startvalue"].ToString());
+        public void CalculateResumo()
+        {
+            int ValorInicial      = 0;
+            int SomaEntradas      = 0;
+            int SomaSaidas        = 0;
+            int TotalEntradaSaida = 0;
+            int ValorTotal        = 0;
+
+            DataTable CaixaInfo = CaixaQueries.GetCaixaValorInicial();
+            if (CaixaInfo.Rows.Count == 1)
+            {
+                DataRow ValorInicialRow = CaixaInfo.Rows[0];
+                ValorInicial = Int32.Parse(ValorInicialRow["startvalue"].ToString().Replace("R$ ", "").Replace(".", "").Replace(",", ""));
+
+                gridViewCaixaResumo.SetRowCellValue(0, "Valor", ValorInicialRow["startvalue"].ToString());
+            }
+
+
+            DataTable CaixaActivity = CaixaQueries.GetCaixaActivity(Globals.CaixaId);
+            if (CaixaActivity.Rows.Count > 0)
+            {
+                foreach (DataRow Row in CaixaActivity.Rows)
+                {
+                    int ActDirection = Int32.Parse(Row["direction"].ToString());
+                    switch (ActDirection)
+                    {
+                        case 0:
+                        {
+                            string ValorSaida = Row["saida"].ToString();
+                            ValorSaida = ValorSaida.Replace("R$ ", "").Replace(".", "").Replace(",", "");
+                            int iValorSaida = Int32.Parse(ValorSaida);
+                            SomaSaidas += iValorSaida;
+                            break;
+                        }
+
+                        case 1:
+                        {
+                            string ValorSaida = Row["saida"].ToString();
+                            ValorSaida = ValorSaida.Replace("R$ ", "").Replace(".", "").Replace(",", "");
+                            int iValorSaida = Int32.Parse(ValorSaida);
+                            SomaSaidas += iValorSaida;
+                            break;
+                        }
+
+                        case 2:
+                        {
+                            string ValorEntrada = Row["entrada"].ToString();
+                            ValorEntrada = ValorEntrada.Replace("R$ ", "").Replace(".", "").Replace(",", "");
+                            int iValorEntrada = Int32.Parse(ValorEntrada);
+                            SomaEntradas += iValorEntrada;
+                            break;
+                        }
+
+                        default: break;
+                    }
+                }
+
+                TotalEntradaSaida = SomaEntradas - SomaSaidas;
+
+                // Calculo do Total incluindo o Valor Inicial
+                string sValorInicial = gridViewCaixaActivity.GetRowCellValue(0, "entrada").ToString().Replace("R$ ", "").Replace(".", "").Replace(",", "");
+                ValorTotal = ValorInicial + TotalEntradaSaida;
+            }
+
+            // Atualizar "TOTAL - ENTRADAS"
+            if (SomaEntradas != 0)
+            {
+                string sTotalEntradasComma = SomaEntradas.ToString().Insert(SomaEntradas.ToString().Length - 2, ",");
+                txtCalcText.Text = sTotalEntradasComma.ToString();
+                gridViewCaixaResumo.SetRowCellValue(6, "Valor", txtCalcText.Text);
+            }
+
+            // Atualizar "TOTAL - SAIDAS"
+            if (SomaSaidas != 0)
+            {
+                string sTotalSaidasComma = SomaSaidas.ToString().Insert(SomaSaidas.ToString().Length - 2, ",");
+                txtCalcText.Text = sTotalSaidasComma.ToString();
+                gridViewCaixaResumo.SetRowCellValue(10, "Valor", txtCalcText.Text);
+            }
+
+            // Atualizar "TOTAL"
+            // Insire a virgula da casa de centavos
+            if (ValorTotal != 0)
+            {
+                string sTotalComma = ValorTotal.ToString().Insert(ValorTotal.ToString().Length - 2, ",");
+                txtCalcText.Text = sTotalComma.ToString();
+                gridViewCaixaResumo.SetRowCellValue(15, "Valor", txtCalcText.Text);
             }
         }
 
@@ -126,6 +215,8 @@ namespace DevApp.Child_Forms
                     CaixaQueries.DeleteCaixaActivity(ActivityId);
 
                     gridViewCaixaActivity.DeleteRow(gridViewCaixaActivity.FocusedRowHandle);
+
+                    CalculateResumo();
                 }
             }
         }
@@ -238,6 +329,7 @@ namespace DevApp.Child_Forms
 
                     GetCurrentCaixaInfo();
                     GetCaixaActivity();
+                    CalculateResumo();
 
                     SplashScreenManager.CloseForm();
                 }
@@ -248,8 +340,14 @@ namespace DevApp.Child_Forms
         {
             if (gridViewCaixaActivity.FocusedRowHandle >= 0)
             {
-                string ActivityType = gridViewCaixaActivity.GetFocusedRowCellValue("tipo").ToString(); ;
-                if (ActivityType == "pedido") { btnDeleteActivity.Enabled = false; } else { btnDeleteActivity.Enabled = true; }
+                string ActivityType = gridViewCaixaActivity.GetFocusedRowCellValue("tipo").ToString();
+                if ((ActivityType == "pedido") || (ActivityType == "inicial"))
+                { 
+                    btnDeleteActivity.Enabled = false; 
+                } else 
+                { 
+                    btnDeleteActivity.Enabled = true; 
+                }
             }
         }
 
@@ -330,7 +428,5 @@ namespace DevApp.Child_Forms
         private void gridViewCaixaResumo_RowCellStyle(object sender, RowCellStyleEventArgs e)
         {
         }
-
-       
     }
 }
