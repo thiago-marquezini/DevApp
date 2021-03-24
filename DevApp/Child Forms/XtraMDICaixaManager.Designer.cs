@@ -1,7 +1,7 @@
 ﻿
 namespace DevApp.Child_Forms
 {
-    partial class XtraMDICaixaMgr
+    partial class XtraMDICaixaManager
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,8 +29,7 @@ namespace DevApp.Child_Forms
         /// </summary>
         private void InitializeComponent()
         {
-            DevExpress.XtraSplashScreen.SplashScreenManager splashScreenManager1 = new DevExpress.XtraSplashScreen.SplashScreenManager(this, null, true, true, typeof(System.Windows.Forms.UserControl));
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(XtraMDICaixaMgr));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(XtraMDICaixaManager));
             this.btnDeleteActivity = new DevExpress.XtraEditors.SimpleButton();
             this.btnAddActivity = new DevExpress.XtraEditors.SimpleButton();
             this.gridCaixaActivity = new DevExpress.XtraGrid.GridControl();
@@ -75,10 +74,6 @@ namespace DevApp.Child_Forms
             ((System.ComponentModel.ISupportInitialize)(this.txtCalcText.Properties)).BeginInit();
             this.SuspendLayout();
             // 
-            // splashScreenManager1
-            // 
-            splashScreenManager1.ClosingDelay = 500;
-            // 
             // btnDeleteActivity
             // 
             this.btnDeleteActivity.Enabled = false;
@@ -110,10 +105,10 @@ namespace DevApp.Child_Forms
             this.gridCaixaActivity.EmbeddedNavigator.Buttons.Edit.Enabled = false;
             this.gridCaixaActivity.EmbeddedNavigator.Buttons.Remove.Enabled = false;
             this.gridCaixaActivity.EmbeddedNavigator.TextStringFormat = "Registro {0} de {1}";
-            this.gridCaixaActivity.Location = new System.Drawing.Point(223, 0);
+            this.gridCaixaActivity.Location = new System.Drawing.Point(223, -1);
             this.gridCaixaActivity.MainView = this.gridViewCaixaActivity;
             this.gridCaixaActivity.Name = "gridCaixaActivity";
-            this.gridCaixaActivity.Size = new System.Drawing.Size(630, 498);
+            this.gridCaixaActivity.Size = new System.Drawing.Size(625, 498);
             this.gridCaixaActivity.TabIndex = 22;
             this.gridCaixaActivity.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewCaixaActivity});
@@ -222,7 +217,7 @@ namespace DevApp.Child_Forms
             this.sidePanel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.sidePanel1.Location = new System.Drawing.Point(0, 0);
             this.sidePanel1.Name = "sidePanel1";
-            this.sidePanel1.Size = new System.Drawing.Size(220, 549);
+            this.sidePanel1.Size = new System.Drawing.Size(220, 550);
             this.sidePanel1.TabIndex = 23;
             this.sidePanel1.Text = "Caixa Fechado";
             // 
@@ -264,9 +259,9 @@ namespace DevApp.Child_Forms
             this.btnCaixaOpenClose.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btnCaixaOpenClose.ImageOptions.SvgImage")));
             this.btnCaixaOpenClose.Location = new System.Drawing.Point(21, 277);
             this.btnCaixaOpenClose.Name = "btnCaixaOpenClose";
-            this.btnCaixaOpenClose.Size = new System.Drawing.Size(135, 40);
+            this.btnCaixaOpenClose.Size = new System.Drawing.Size(186, 40);
             this.btnCaixaOpenClose.TabIndex = 27;
-            this.btnCaixaOpenClose.Text = "Abrir Caixa <b>(F5)</b>";
+            this.btnCaixaOpenClose.Text = "Abrir Caixa <b>(F5)</b>        ";
             this.btnCaixaOpenClose.Click += new System.EventHandler(this.btnCaixaOpenClose_Click);
             // 
             // labelControl4
@@ -357,10 +352,10 @@ namespace DevApp.Child_Forms
             // 
             this.panelCaixaReceipt.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
             this.panelCaixaReceipt.Controls.Add(this.gridCaixaResumo);
-            this.panelCaixaReceipt.Location = new System.Drawing.Point(852, 0);
+            this.panelCaixaReceipt.Location = new System.Drawing.Point(847, -1);
             this.panelCaixaReceipt.Margin = new System.Windows.Forms.Padding(0);
             this.panelCaixaReceipt.Name = "panelCaixaReceipt";
-            this.panelCaixaReceipt.Size = new System.Drawing.Size(275, 498);
+            this.panelCaixaReceipt.Size = new System.Drawing.Size(285, 498);
             this.panelCaixaReceipt.TabIndex = 28;
             // 
             // gridCaixaResumo
@@ -372,7 +367,7 @@ namespace DevApp.Child_Forms
             this.gridCaixaResumo.Location = new System.Drawing.Point(2, 2);
             this.gridCaixaResumo.MainView = this.gridViewCaixaResumo;
             this.gridCaixaResumo.Name = "gridCaixaResumo";
-            this.gridCaixaResumo.Size = new System.Drawing.Size(271, 494);
+            this.gridCaixaResumo.Size = new System.Drawing.Size(281, 494);
             this.gridCaixaResumo.TabIndex = 0;
             this.gridCaixaResumo.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewCaixaResumo});
@@ -394,11 +389,11 @@ namespace DevApp.Child_Forms
             this.gridViewCaixaResumo.Appearance.HorzLine.Options.UseBorderColor = true;
             this.gridViewCaixaResumo.Appearance.HorzLine.Options.UseFont = true;
             this.gridViewCaixaResumo.Appearance.Row.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.gridViewCaixaResumo.Appearance.Row.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gridViewCaixaResumo.Appearance.Row.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gridViewCaixaResumo.Appearance.Row.Options.UseFont = true;
             this.gridViewCaixaResumo.Appearance.RowSeparator.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.gridViewCaixaResumo.Appearance.RowSeparator.Options.UseBorderColor = true;
-            this.gridViewCaixaResumo.Appearance.SelectedRow.Font = new System.Drawing.Font("Courier New", 9F);
+            this.gridViewCaixaResumo.Appearance.SelectedRow.Font = new System.Drawing.Font("Courier New", 8.25F);
             this.gridViewCaixaResumo.Appearance.SelectedRow.Options.UseFont = true;
             this.gridViewCaixaResumo.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.gridViewCaixaResumo.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
@@ -436,7 +431,7 @@ namespace DevApp.Child_Forms
             this.clnRecordDescription.Name = "clnRecordDescription";
             this.clnRecordDescription.Visible = true;
             this.clnRecordDescription.VisibleIndex = 0;
-            this.clnRecordDescription.Width = 160;
+            this.clnRecordDescription.Width = 150;
             // 
             // clnRecordValue
             // 
@@ -470,10 +465,11 @@ namespace DevApp.Child_Forms
             this.txtCalcText.TabIndex = 36;
             this.txtCalcText.Visible = false;
             // 
-            // XtraMDICaixaMgr
+            // XtraMDICaixaManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1131, 550);
             this.Controls.Add(this.txtCalcText);
             this.Controls.Add(this.panelCaixaReceipt);
             this.Controls.Add(this.btnPrintResumoCaixa);
@@ -483,9 +479,13 @@ namespace DevApp.Child_Forms
             this.Controls.Add(this.btnAddActivity);
             this.Controls.Add(this.btnDeleteActivity);
             this.DoubleBuffered = true;
-            this.Name = "XtraMDICaixaMgr";
-            this.Size = new System.Drawing.Size(1128, 549);
-            this.Load += new System.EventHandler(this.XtraMDICaixaMgr_Load);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.Name = "XtraMDICaixaManager";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Gerenciador de Caixa";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.XtraMDICaixaManager_FormClosing);
+            this.Load += new System.EventHandler(this.XtraMDICaixaManager_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridCaixaActivity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewCaixaActivity)).EndInit();
             this.sidePanel1.ResumeLayout(false);

@@ -18,9 +18,9 @@ namespace DevApp.PopUp_Forms
     {
         private clsCaixaQueries CaixaQueries = new clsCaixaQueries();
         private int CaixaId = -1;
-        private XtraMDICaixaMgr CaixaForm;
+        private XtraMDICaixaManager CaixaForm;
 
-        public XtraCaixaAddActivity(XtraMDICaixaMgr _CaixaForm, int CaixaId)
+        public XtraCaixaAddActivity(XtraMDICaixaManager _CaixaForm, int CaixaId)
         {
             InitializeComponent();
 
@@ -39,7 +39,7 @@ namespace DevApp.PopUp_Forms
             {
                 this.Close();
                 CaixaForm.GetCaixaActivity();
-                CaixaForm.CalculateResumo();
+                CaixaForm.CalculateResumo(false);
             }
         }
 

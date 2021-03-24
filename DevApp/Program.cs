@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Globalization;
+using System.Threading;
 
 namespace DevApp
 {
@@ -18,13 +20,15 @@ namespace DevApp
             //DevExpress.UserSkins.BonusSkins.Register();  
             //Assembly asm = typeof(DevExpress.UserSkins.CustomSkin).Assembly;
             //DevExpress.Skins.SkinManager.Default.RegisterAssembly(asm);
-            // Splash screens and wait forms created with the help of the SplashScreenManager component run in a separate thread.  
-            // Information on custom skins registered in the main thread is not available in the splash screen thread  
-            // until you call the SplashScreenManager.RegisterUserSkins method.  
-            // To provide information on custom skins to the splash screen thread, uncomment the following line. 
             //SplashScreenManager.RegisterUserSkins(asm);  
 
-            
+            // Linguagem pt-BR
+            CultureInfo Culture = CultureInfo.CreateSpecificCulture("pt-BR");
+            Thread.CurrentThread.CurrentUICulture = Culture;
+            Thread.CurrentThread.CurrentCulture = Culture;
+            CultureInfo.DefaultThreadCurrentCulture = Culture;
+            CultureInfo.DefaultThreadCurrentUICulture = Culture;
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new frmMain());

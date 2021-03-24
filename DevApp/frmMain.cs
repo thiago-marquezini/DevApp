@@ -17,8 +17,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
-// Database
 using DevApp.Global;
+using DevApp.User_Forms;
 using DevApp.Child_Forms;
 using DevApp.PopUp_Forms;
 using DevApp.SQLite.Queries;
@@ -28,23 +28,20 @@ namespace DevApp
 {
     public partial class frmMain : DevExpress.XtraBars.Ribbon.RibbonForm
     {
-        private clsUserQueries Queries = new clsUserQueries();
-
         public void SplashScreen()
         {
             //Image myLogoImage = Resources.Logo;
             SplashScreenManager.ShowSkinSplashScreen(
                 //logoImage: myLogoImage,
-                title: "When Only The Best Will Do",
-                subtitle: "DevExpress WinForms Controls",
-                footer: "Copyright © 2000 - 2020 Developer Express Inc." + Environment.NewLine + "All Rights reserved.",
-                loading: "Starting...",
+                title: "DevApp Business Management",
+                subtitle: "Opensource Restaurant Manager",
+                footer: "Copyright © 2021 DevApp Solucoes." + Environment.NewLine + "Todos os direitos reservados.",
+                loading: "Iniciando DevApp v1.3..",
                 parentForm: this
             );
 
-            Thread.Sleep(1000);
+            Thread.Sleep(2000);
             DevExpress.XtraSplashScreen.SplashScreenManager.CloseForm();
-            Thread.Sleep(1000);
         }
 
         public frmMain()
@@ -52,40 +49,43 @@ namespace DevApp
             InitializeComponent();
             SplashScreen();
 
-            // Change Ribbon SearchBox Text
-            BarLocalizer.Active = new CustomBarLocalizer();
+            ribbon.Minimized = true;
+            nativeMdiView1.BackgroundImage = Image.FromFile("C:\\Users\\Thiago\\Desktop\\DevApp\\Resouces\\bg.png");
+        }
+
+        public void ShowCurrentCaixa()
+        {
+            XtraMDICaixaManager CAIXA = new XtraMDICaixaManager(false);
+            CAIXA.Text = "Gerenciador de Caixa";
+            CAIXA.WindowState = FormWindowState.Normal;
+            CAIXA.MdiParent = this;
+            CAIXA.Show();
+        }
+
+        public void ShowCustomCaixa(int CaixaId)
+        {
+            XtraMDICaixaManager CAIXA = new XtraMDICaixaManager(true, CaixaId);
+            CAIXA.Text = "Historico - Caixa de Thiago Marquezini - Id: " + CaixaId.ToString();
+            CAIXA.WindowState = FormWindowState.Normal;
+            CAIXA.MdiParent = this;
+            CAIXA.Show();
+        }
+
+        public void SetLogginedUser()
+        {
+            lblLogginedUser.Caption = "<b>Usuario</b>: " + LogginedUser.DisplayName;
+            ribbon.Minimized = false;
         }
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            // Enable Skins for Forms and MDI Forms
             SkinManager.EnableFormSkins();
             SkinManager.EnableMdiFormSkins();
 
-            // Add background MDI Form
-            XtraMDIBackground childForm = null;
-            childForm = new XtraMDIBackground();
-            childForm.Text = "MDI Background Form";
-            childForm.MdiParent = this;
-            childForm.AutoScroll = false;
-            childForm.Show();
-
-            //Queries.Login("admin", "123456");
-
-            //Thread myNewThread = new Thread(() => MyMethod("param1", 5));
-            //myNewThread.IsBackground = true;
-            //myNewThread.Start();
-        }
-
-        private void MyMethod(string param1, int param2)
-        {
-            //do stuff
-        }
-
-        private void barButtonItem2_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            XtraMDICaixaMgr CAIXA = new XtraMDICaixaMgr();
-            DevExpress.XtraEditors.XtraDialog.Show(CAIXA, "Gerenciador de Caixa", MessageBoxButtons.OK);
+            XtraLogin Login = new XtraLogin(this);
+            Login.Text = "Login de Usuario";
+            Login.WindowState = FormWindowState.Normal;
+            Login.ShowDialog(this);
         }
 
         private void barEditItem5_EditValueChanged(object sender, EventArgs e)
@@ -97,68 +97,23 @@ namespace DevApp
             }
         }
 
-        private void ribbon_SelectedPageChanged(object sender, EventArgs e)
+
+        private void btnShowCaixa_ItemClick(object sender, ItemClickEventArgs e)
         {
-            // Ribbon Page Changed
-            if (ribbon.SelectedPage == ribbonPage1)
-            {
-                //ribbon.SelectPage(ribbonPage4);
-            }
+            XtraMDICaixaManager CAIXA = new XtraMDICaixaManager(false);
+            CAIXA.Text = "Gerenciador de Caixa";
+            CAIXA.WindowState = FormWindowState.Normal;
+            CAIXA.MdiParent = this;
+            CAIXA.Show();
         }
 
-        void AddChild()
+        private void btnShowCaixaHist_ItemClick(object sender, ItemClickEventArgs e)
         {
-            Form childForm = null;
-            childForm = new XtraForm_Caixa();
-            //childForm.Text = "Xtra Child Form";
-
-            //SimpleButton btn = new SimpleButton();
-            //btn.Text = "Button";
-            //btn.Parent = childForm;
-
+            XtraMDICaixaHistory childForm = new XtraMDICaixaHistory(this);
+            childForm.Text = "Historico de Abertura e Fechamento de Caixa";
             childForm.WindowState = FormWindowState.Normal;
             childForm.MdiParent = this;
             childForm.Show();
-
-            //frmLogin LoginForm = new frmLogin();
-            //DevExpress.XtraEditors.XtraDialog.Show(LoginForm, "Sign in", MessageBoxButtons.OKCancel);
-        }
-
-        private void frmMain_MouseDown(object sender, MouseEventArgs e)
-        {
-            //if (e.Button == MouseButtons.Right)
-            //{
-                if (XtraMessageBox.Show("Right click detected", "Message", MessageBoxButtons.YesNo) != DialogResult.No)
-                {
-
-                }
-            //}
-        }
-
-        private void frmMain_MouseClick(object sender, MouseEventArgs e)
-        {
-            //if (e.Button == MouseButtons.Right)
-            //{
-                if (XtraMessageBox.Show("Right click detected", "Message", MessageBoxButtons.YesNo) != DialogResult.No)
-                {
-
-                }
-            //}
-        }
-
-        private void barButtonItem7_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            SplashScreenManager.ShowForm(typeof(WaitForm1));
-            Thread.Sleep(2000);
-            SplashScreenManager.CloseForm();
-        }
-
-        private void barButtonItem8_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            //for (int i = 0; i < 3; i++)
-            //{
-                AddChild();
-            //}
         }
 
         private void btnFinanceiroCategDespesas_ItemClick(object sender, ItemClickEventArgs e)
@@ -173,6 +128,21 @@ namespace DevApp
         {
             WizardConfigureApp ConfigWizard = new WizardConfigureApp();
             ConfigWizard.Show();
+        }
+
+        private void btnCadastroClientes_ItemClick(object sender, ItemClickEventArgs e)
+        {
+
+        }
+
+        private void btnShowTables_ItemClick(object sender, ItemClickEventArgs e)
+        {
+
+        }
+
+        private void btnPedidoCaixa_ItemClick(object sender, ItemClickEventArgs e)
+        {
+
         }
     }
 }

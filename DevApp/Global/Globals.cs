@@ -7,19 +7,31 @@ using System.Windows.Forms;
 
 namespace DevApp.Global
 {
+    public static class LogginedUser
+    {
+        public static bool Loggined = false;
+        public static string Username;
+        public static string DisplayName;
+        public static string LastActivity;
+        public static int Level;
+    }
+
     public static class Globals
     {
         public static List<string> onlineMembers = new List<string>();
 
+        // Caixa
+        // 
         public static bool IsCaixaOpen { get; set; }
         public static int CaixaId { get; set; }
-
+        public static int CaixaValorTotal { get; set; }
+        public static int CaixaValorTotalDinheiro { get; set; }
 
 
         static Globals()
         {
             IsCaixaOpen = false;
-            CaixaId     = -1;
+            CaixaId = -1;
         }
 
         public static List<Control> GetAllControls(Control container, List<Control> list)

@@ -7,7 +7,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using DevApp.Global;
@@ -21,52 +20,94 @@ using System.Globalization;
 
 namespace DevApp.Child_Forms
 {
-    public partial class XtraMDICaixaMgr : DevExpress.XtraEditors.XtraUserControl
+    public partial class XtraMDICaixaManager : DevExpress.XtraEditors.XtraForm
     {
         public bool IsPreview = false;
+        public int PreviewCaixaId = 0;
 
         CultureInfo CultureBR = new CultureInfo("pt-BR");
         private clsCaixaQueries CaixaQueries = new clsCaixaQueries();
         private List<ClsDSCaixaResumo> CaixaItensResumo = new List<ClsDSCaixaResumo>();
 
-        public XtraMDICaixaMgr()
+        public XtraMDICaixaManager(bool _IsPreview, int _PreviewCaixaId = 0)
         {
             InitializeComponent();
+
+            this.IsPreview = _IsPreview;
+            this.PreviewCaixaId = _PreviewCaixaId;
         }
 
-        private void XtraMDICaixaMgr_Load(object sender, EventArgs e)
+        private void XtraMDICaixaManager_Load(object sender, EventArgs e)
         {
             BuildCaixaReceipt();
-            GetCurrentCaixaInfo();
 
-            if (Globals.IsCaixaOpen)
+            if (this.IsPreview)
             {
+                // Load Preview
                 txtCaixaSaldoInicial.Enabled = false;
-                btnCaixaOpenClose.Text = "Fechar Caixa";
-                btnAddActivity.Enabled = true;
+                btnCaixaOpenClose.Text = "Abrir Caixa <b>(F5)</b>        ";
+                btnCaixaOpenClose.Enabled = false;
+                btnAddActivity.Enabled = false;
                 btnPrintMovCaixa.Enabled = true;
                 btnPrintResumoCaixa.Enabled = true;
-                btnDeleteActivity.Enabled = true;
-                panelCaixaStateColor.BackColor = Color.ForestGreen;
-                lblCaixaState.Text = "Caixa Aberto";
-
-                GetCaixaActivity();
-                CalculateResumo(false);
-            }
-            else
-            {
-                txtCaixaSaldoInicial.Enabled = true;
-                btnCaixaOpenClose.Text = "Abrir Caixa";
-                btnAddActivity.Enabled = false;
-                btnPrintMovCaixa.Enabled = false;
-                btnPrintResumoCaixa.Enabled = false;
                 btnDeleteActivity.Enabled = false;
                 panelCaixaStateColor.BackColor = Color.OrangeRed;
                 lblCaixaState.Text = "Caixa Fechado";
+                memoCaixaObs.ReadOnly = true;
+
+                GetCustomCaixaInfo(this.PreviewCaixaId);
+                GetCaixaActivity();
+                CalculateResumo(false);
+
+            } else
+            {
+                GetCurrentCaixaInfo();
+
+                if (Globals.IsCaixaOpen)
+                {
+                    txtCaixaSaldoInicial.Enabled = false;
+                    btnCaixaOpenClose.Text = "Fechar Caixa <b>(F5)</b>       ";
+                    btnAddActivity.Enabled = true;
+                    btnPrintMovCaixa.Enabled = true;
+                    btnPrintResumoCaixa.Enabled = true;
+                    btnDeleteActivity.Enabled = true;
+                    panelCaixaStateColor.BackColor = Color.ForestGreen;
+                    lblCaixaState.Text = "Caixa Aberto";
+
+                    GetCaixaActivity();
+                    CalculateResumo(false);
+                }
+                else
+                {
+                    txtCaixaSaldoInicial.Enabled = true;
+                    btnCaixaOpenClose.Text = "Abrir Caixa <b>(F5)</b>        ";
+                    btnAddActivity.Enabled = false;
+                    btnPrintMovCaixa.Enabled = false;
+                    btnPrintResumoCaixa.Enabled = false;
+                    btnDeleteActivity.Enabled = false;
+                    panelCaixaStateColor.BackColor = Color.OrangeRed;
+                    lblCaixaState.Text = "Caixa Fechado";
+                }
+            }
+            
+        }
+
+        public void GetCustomCaixaInfo(int CaixaId)
+        {
+            DataTable cCaixaInfo = CaixaQueries.GetCustomCaixaInfo(CaixaId);
+            if (cCaixaInfo.Rows.Count == 1)
+            {
+                DataRow cCaixaRow = cCaixaInfo.Rows[0];
+
+                Globals.CaixaId = Int32.Parse(cCaixaRow["id"].ToString());
+
+                txtCaixaSaldoInicial.Text = cCaixaRow["startvalue"].ToString();
+                lblCaixaOpenTime.Text = cCaixaRow["openedat"].ToString();
+                memoCaixaObs.Text = cCaixaRow["obs"].ToString();
             }
         }
 
-        public void GetCurrentCaixaInfo()
+        private void GetCurrentCaixaInfo()
         {
             DataTable CaixaInfo = CaixaQueries.GetCaixaInfo();
             if (CaixaInfo.Rows.Count == 1)
@@ -77,28 +118,28 @@ namespace DevApp.Child_Forms
                 Globals.CaixaId = Int32.Parse(CaixaRow["id"].ToString());
 
                 txtCaixaSaldoInicial.Text = CaixaRow["startvalue"].ToString();
-                lblCaixaOpenTime.Text     = CaixaRow["openedat"].ToString();
-                memoCaixaObs.Text         = CaixaRow["obs"].ToString();
+                lblCaixaOpenTime.Text = CaixaRow["openedat"].ToString();
+                memoCaixaObs.Text = CaixaRow["obs"].ToString();
             }
         }
 
         public bool CalculateResumo(bool CloseCaixa, string UserInputEndVal = "")
         {
-            int ValorInicial          = 0;
-            int SomaEntradas          = 0;
-            int SomaEntradasDinheiro  = 0;
+            int ValorInicial = 0;
+            int SomaEntradas = 0;
+            int SomaEntradasDinheiro = 0;
             int SomaEntradasCartaoPix = 0;
-            int SomaSaidas            = 0;
-            int SomaSaidasDinheiro    = 0;
-            int SomaSaidasCartaoPix   = 0;
-            int SomaSaidasDespesas    = 0;
-            int SomaSaidasSangria     = 0;
-            int TotalEntradaSaida     = 0;
-            int CntTotalLancamentos   = 0;
+            int SomaSaidas = 0;
+            int SomaSaidasDinheiro = 0;
+            int SomaSaidasCartaoPix = 0;
+            int SomaSaidasDespesas = 0;
+            int SomaSaidasSangria = 0;
+            int TotalEntradaSaida = 0;
+            int CntTotalLancamentos = 0;
             int ValorTotal;
             int ValorTotalDinheiro;
 
-            DataTable CaixaInfo = CaixaQueries.GetCaixaValorInicial();
+            DataTable CaixaInfo = CaixaQueries.GetCaixaValorInicial(Globals.CaixaId);
             if (CaixaInfo.Rows.Count == 1)
             {
                 DataRow ValorInicialRow = CaixaInfo.Rows[0];
@@ -116,40 +157,40 @@ namespace DevApp.Child_Forms
                     switch (ActDirection)
                     {
                         case 0:
-                        {
-                            string ValorSaida = Row["saida"].ToString();
-                            ValorSaida = ValorSaida.Replace(".", "").Replace(",", "");
-                            int iValorSaida = Int32.Parse(ValorSaida);
-                            SomaSaidasDespesas += iValorSaida;
-                            SomaSaidas += iValorSaida;
-                            if ((Row["formapgto"].ToString() == "Dinheiro") || (Row["formapgto"].ToString() == "Cheque")) { SomaSaidasDinheiro += iValorSaida; }
-                            if ((Row["formapgto"].ToString() == "Debito") || (Row["formapgto"].ToString() == "PIX")) { SomaSaidasCartaoPix += iValorSaida; }
-                            break;
-                        }
+                            {
+                                string ValorSaida = Row["saida"].ToString();
+                                ValorSaida = ValorSaida.Replace(".", "").Replace(",", "");
+                                int iValorSaida = Int32.Parse(ValorSaida);
+                                SomaSaidasDespesas += iValorSaida;
+                                SomaSaidas += iValorSaida;
+                                if ((Row["formapgto"].ToString() == "Dinheiro") || (Row["formapgto"].ToString() == "Cheque")) { SomaSaidasDinheiro += iValorSaida; }
+                                if ((Row["formapgto"].ToString() == "Debito") || (Row["formapgto"].ToString() == "PIX")) { SomaSaidasCartaoPix += iValorSaida; }
+                                break;
+                            }
 
                         case 1:
-                        {
-                            string ValorSaida = Row["saida"].ToString();
-                            ValorSaida = ValorSaida.Replace(".", "").Replace(",", "");
-                            int iValorSaida = Int32.Parse(ValorSaida);
-                            SomaSaidasSangria += iValorSaida;
-                            SomaSaidas += iValorSaida;
-                            if ((Row["formapgto"].ToString() == "Dinheiro") || (Row["formapgto"].ToString() == "Cheque")) { SomaSaidasDinheiro += iValorSaida; }
-                            if ((Row["formapgto"].ToString() == "Debito") || (Row["formapgto"].ToString() == "PIX")) { SomaSaidasCartaoPix += iValorSaida; }
-                            break;
-                        }
+                            {
+                                string ValorSaida = Row["saida"].ToString();
+                                ValorSaida = ValorSaida.Replace(".", "").Replace(",", "");
+                                int iValorSaida = Int32.Parse(ValorSaida);
+                                SomaSaidasSangria += iValorSaida;
+                                SomaSaidas += iValorSaida;
+                                if ((Row["formapgto"].ToString() == "Dinheiro") || (Row["formapgto"].ToString() == "Cheque")) { SomaSaidasDinheiro += iValorSaida; }
+                                if ((Row["formapgto"].ToString() == "Debito") || (Row["formapgto"].ToString() == "PIX")) { SomaSaidasCartaoPix += iValorSaida; }
+                                break;
+                            }
 
                         case 2:
-                        {
-                            string ValorEntrada = Row["entrada"].ToString();
-                            ValorEntrada = ValorEntrada.Replace(".", "").Replace(",", "");
-                            int iValorEntrada = Int32.Parse(ValorEntrada);
-                            SomaEntradas += iValorEntrada;
-                            if ((Row["formapgto"].ToString() == "Dinheiro") || (Row["formapgto"].ToString() == "Cheque")) { SomaEntradasDinheiro += iValorEntrada; }
-                            if ((Row["formapgto"].ToString() == "Debito") || (Row["formapgto"].ToString() == "PIX")) { SomaEntradasCartaoPix += iValorEntrada; }
-                            
-                            break;
-                        }
+                            {
+                                string ValorEntrada = Row["entrada"].ToString();
+                                ValorEntrada = ValorEntrada.Replace(".", "").Replace(",", "");
+                                int iValorEntrada = Int32.Parse(ValorEntrada);
+                                SomaEntradas += iValorEntrada;
+                                if ((Row["formapgto"].ToString() == "Dinheiro") || (Row["formapgto"].ToString() == "Cheque")) { SomaEntradasDinheiro += iValorEntrada; }
+                                if ((Row["formapgto"].ToString() == "Debito") || (Row["formapgto"].ToString() == "PIX")) { SomaEntradasCartaoPix += iValorEntrada; }
+
+                                break;
+                            }
 
                         default: break;
                     }
@@ -172,18 +213,20 @@ namespace DevApp.Child_Forms
                                             (SomaEntradas != 0) ? SomaEntradas.ToString().Insert(SomaEntradas.ToString().Length - 2, ",") : "0,00"))
                 {
                     return true;
-                } else { return false; }
+                }
+                else { return false; }
 
-            // Atualizar a Interface do Resumo
-            } else
+                // Atualizar a Interface do Resumo
+            }
+            else
             {
-                SetResumoGridInfo(ValorInicial, 
-                                  SomaEntradasDinheiro, 
-                                  SomaEntradasCartaoPix, 
-                                  SomaEntradas, 
-                                  SomaSaidasDinheiro, 
-                                  SomaSaidasCartaoPix, 
-                                  ValorTotalDinheiro, 
+                SetResumoGridInfo(ValorInicial,
+                                  SomaEntradasDinheiro,
+                                  SomaEntradasCartaoPix,
+                                  SomaEntradas,
+                                  SomaSaidasDinheiro,
+                                  SomaSaidasCartaoPix,
+                                  ValorTotalDinheiro,
                                   ValorTotal);
             }
 
@@ -193,7 +236,7 @@ namespace DevApp.Child_Forms
             return true;
         }
 
-        public void SetResumoGridInfo(int ValorInicial, int SomaEntradasDinheiro, int SomaEntradasCartaoPix, int SomaEntradas, int SomaSaidasDinheiro, int SomaSaidasCartaoPix, int ValorTotalDinheiro,int ValorTotal)
+        private void SetResumoGridInfo(int ValorInicial, int SomaEntradasDinheiro, int SomaEntradasCartaoPix, int SomaEntradas, int SomaSaidasDinheiro, int SomaSaidasCartaoPix, int ValorTotalDinheiro, int ValorTotal)
         {
             // VALOR INICIAL
             // ..
@@ -279,7 +322,6 @@ namespace DevApp.Child_Forms
             else { gridViewCaixaResumo.SetRowCellValue(18, "Valor", "R$ 0,00"); }
         }
 
-
         public void GetCaixaActivity()
         {
             DataTable dt = CaixaQueries.GetCaixaActivity(Globals.CaixaId);
@@ -290,25 +332,25 @@ namespace DevApp.Child_Forms
         {
             CaixaItensResumo.Clear();
 
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 0,  Descricao = " (+) SALDO INICIAL",          Valor = "R$ 0,00" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 1,  Descricao = " (+) ENTRADAS NO CAIXA",      Valor = "" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 2, Descricao = "    PEDIDOS", Valor = "" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 3, Descricao = "      Dinheiro/Cheque", Valor = "R$ 0,00" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 4, Descricao = "      Debito/PIX", Valor = "R$ 0,00" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 5,  Descricao = "    ACRECIMOS",               Valor = "" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 6,  Descricao = "      Dinheiro/Cheque",       Valor = "R$ 0,00" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 7,  Descricao = "      Debito/PIX", Valor = "R$ 0,00" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 8,  Descricao = "    TOTAL",        Valor = "" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 9,  Descricao = "      Total:",                Valor = "R$ 0,00" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 10,  Descricao = "",                           Valor = "" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 11,  Descricao = " (+) SAIDAS NO CAIXA",        Valor = "" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 12,  Descricao = "    SANGRIAS E DESPESAS",     Valor = "" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 13, Descricao = "      Dinheiro/Cheque",       Valor = "R$ 0,00" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 14, Descricao = "      Debito/PIX", Valor = "R$ 0,00" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 15, Descricao = "",                           Valor = "" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 16, Descricao = " (=) SALDO FINAL",            Valor = "" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 17, Descricao = "    Somente Dinheiro",        Valor = "R$ 0,00" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 18, Descricao = "    TUDO:",                   Valor = "R$ 0,00" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 0, Descricao = "(+) SALDO INICIAL", Valor = "R$ 0,00" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 1, Descricao = "(+) ENTRADAS NO CAIXA", Valor = "" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 2, Descricao = "  PEDIDOS", Valor = "" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 3, Descricao = "   Dinheiro/Cheque", Valor = "R$ 0,00" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 4, Descricao = "   Debito/PIX", Valor = "R$ 0,00" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 5, Descricao = "  ACRECIMOS", Valor = "" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 6, Descricao = "   Dinheiro/Cheque", Valor = "R$ 0,00" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 7, Descricao = "   Debito/PIX", Valor = "R$ 0,00" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 8, Descricao = "  TOTAL", Valor = "" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 9, Descricao = "   Total:", Valor = "R$ 0,00" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 10, Descricao = "", Valor = "" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 11, Descricao = "(+) SAIDAS NO CAIXA", Valor = "" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 12, Descricao = "  SANGRIAS E DESPESAS", Valor = "" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 13, Descricao = "   Dinheiro/Cheque", Valor = "R$ 0,00" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 14, Descricao = "   Debito/PIX", Valor = "R$ 0,00" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 15, Descricao = "", Valor = "" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 16, Descricao = "(=) SALDO FINAL", Valor = "" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 17, Descricao = "  Somente Dinheiro", Valor = "R$ 0,00" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 18, Descricao = "  TUDO:", Valor = "R$ 0,00" });
 
             gridCaixaResumo.DataSource = CaixaItensResumo;
 
@@ -356,7 +398,7 @@ namespace DevApp.Child_Forms
                 return;
             }
 
-            gridCaixaActivity.ShowPrintPreview();
+            gridCaixaActivity.PrintDialog();
         }
 
         private void btnPrintResumoCaixa_Click(object sender, EventArgs e)
@@ -384,61 +426,64 @@ namespace DevApp.Child_Forms
 
                 switch (CloseCaixaDialog.DecisionId)
                 {
-                    case 0:  goto Exit;
-                    case 1:  goto CloseAnyway;
-                    case 2:  goto CloseAndPrint;
+                    case 0: goto Exit;
+                    case 1: goto CloseAnyway;
+                    case 2: goto CloseAndPrint;
                     default: break;
                 }
 
-                CloseAnyway:
+            CloseAnyway:
 
-                    Globals.IsCaixaOpen = false;
+                Globals.IsCaixaOpen = false;
 
-                    txtCaixaSaldoInicial.Text = "R$ 0,00";
-                    txtCaixaSaldoInicial.Enabled = true;
-                    btnCaixaOpenClose.Text = "Abrir Caixa";
-                    btnAddActivity.Enabled = false;
-                    btnPrintMovCaixa.Enabled = false;
-                    btnPrintResumoCaixa.Enabled = false;
-                    btnDeleteActivity.Enabled = false;
-                    panelCaixaStateColor.BackColor = Color.OrangeRed;
-                    lblCaixaState.Text = "Caixa Fechado";
-                    lblCaixaOpenTime.Text = "Caixa Fechado";
+                txtCaixaSaldoInicial.Text = "R$ 0,00";
+                txtCaixaSaldoInicial.Enabled = true;
+                btnCaixaOpenClose.Text = "Abrir Caixa <b>(F5)</b>        ";
+                btnAddActivity.Enabled = false;
+                btnPrintMovCaixa.Enabled = false;
+                btnPrintResumoCaixa.Enabled = false;
+                btnDeleteActivity.Enabled = false;
+                panelCaixaStateColor.BackColor = Color.OrangeRed;
+                lblCaixaState.Text = "Caixa Fechado";
+                lblCaixaOpenTime.Text = "Caixa Fechado";
 
-                    gridCaixaActivity.DataSource = null;
-                    gridCaixaResumo.DataSource = null;
+                gridCaixaActivity.DataSource = null;
+                gridCaixaResumo.DataSource = null;
 
-                    BuildCaixaReceipt();
+                BuildCaixaReceipt();
 
-                    goto Exit;
+                goto Exit;
 
 
-                CloseAndPrint: 
+            CloseAndPrint:
 
-                    Globals.IsCaixaOpen = false;
+                Globals.IsCaixaOpen = false;
 
-                    txtCaixaSaldoInicial.Text = "R$ 0,00";
-                    txtCaixaSaldoInicial.Enabled = true;
-                    btnCaixaOpenClose.Text = "Abrir Caixa";
-                    btnAddActivity.Enabled = false;
-                    btnPrintMovCaixa.Enabled = false;
-                    btnPrintResumoCaixa.Enabled = false;
-                    btnDeleteActivity.Enabled = false;
-                    panelCaixaStateColor.BackColor = Color.OrangeRed;
-                    lblCaixaState.Text = "Caixa Fechado";
-                    lblCaixaOpenTime.Text = "Caixa Fechado";
+                gridCaixaResumo.PrintDialog();
 
-                    gridCaixaActivity.DataSource = null;
-                    gridCaixaResumo.DataSource = null;
+                txtCaixaSaldoInicial.Text = "R$ 0,00";
+                txtCaixaSaldoInicial.Enabled = true;
+                btnCaixaOpenClose.Text = "Abrir Caixa <b>(F5)</b>        ";
+                btnAddActivity.Enabled = false;
+                btnPrintMovCaixa.Enabled = false;
+                btnPrintResumoCaixa.Enabled = false;
+                btnDeleteActivity.Enabled = false;
+                panelCaixaStateColor.BackColor = Color.OrangeRed;
+                lblCaixaState.Text = "Caixa Fechado";
+                lblCaixaOpenTime.Text = "Caixa Fechado";
 
-                    BuildCaixaReceipt();
+                gridCaixaActivity.DataSource = null;
+                gridCaixaResumo.DataSource = null;
 
-                    goto Exit;
+                BuildCaixaReceipt();
 
-                Exit:
+                goto Exit;
+
+            Exit:
                 Thread.Sleep(1); // just because a label requires some code after declaration
 
-            } else
+            }
+            else
             {
                 if (CaixaQueries.OpenCaixa(txtCaixaSaldoInicial.Text))
                 {
@@ -448,7 +493,7 @@ namespace DevApp.Child_Forms
                     Globals.IsCaixaOpen = true;
 
                     txtCaixaSaldoInicial.Enabled = false;
-                    btnCaixaOpenClose.Text = "Fechar Caixa";
+                    btnCaixaOpenClose.Text = "Fechar Caixa <b>(F5)</b>       ";
                     btnAddActivity.Enabled = true;
                     btnPrintMovCaixa.Enabled = true;
                     btnPrintResumoCaixa.Enabled = true;
@@ -460,7 +505,6 @@ namespace DevApp.Child_Forms
                     GetCaixaActivity();
                     CalculateResumo(false);
 
-                    Thread.Sleep(1000);
                     SplashScreenManager.CloseForm();
                 }
             }
@@ -470,14 +514,23 @@ namespace DevApp.Child_Forms
         {
             if (gridViewCaixaActivity.FocusedRowHandle >= 0)
             {
-                string ActivityType = gridViewCaixaActivity.GetFocusedRowCellValue("tipo").ToString();
-                if ((ActivityType == "pedido") || (ActivityType == "inicial"))
-                { 
-                    btnDeleteActivity.Enabled = false; 
-                } else 
-                { 
-                    btnDeleteActivity.Enabled = true; 
+                if (this.IsPreview == false)
+                {
+                    string ActivityType = gridViewCaixaActivity.GetFocusedRowCellValue("tipo").ToString();
+                    if ((ActivityType == "pedido") || (ActivityType == "inicial"))
+                    {
+                        btnDeleteActivity.Enabled = false;
+                    }
+                    else
+                    {
+                        btnDeleteActivity.Enabled = true;
+                    }
+
+                } else
+                {
+                    btnDeleteActivity.Enabled = false;
                 }
+                
             }
         }
 
@@ -490,7 +543,7 @@ namespace DevApp.Child_Forms
                 e.Appearance.FontStyleDelta = FontStyle.Bold;
             }
 
-            if ((e.RowHandle == 2) || (e.RowHandle == 5) || (e.RowHandle == 8))
+            if ((e.RowHandle == 2) || (e.RowHandle == 5) || (e.RowHandle == 8) || (e.RowHandle == 12))
             {
                 if (e.Column.FieldName == "Descricao")
                 {
@@ -511,7 +564,7 @@ namespace DevApp.Child_Forms
 
                     e.Column.AppearanceCell.ForeColor = Color.Green;
                 }
-                
+
             }
 
             if (e.Column.FieldName == "saida" && e.ListSourceRowIndex != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
@@ -540,7 +593,7 @@ namespace DevApp.Child_Forms
                         e.Graphics.FillRectangle(brush, r.X, r.Y, 3, r.Height);
                         e.Appearance.DrawString(e.Cache, "    " + e.DisplayText, r);
                         e.Handled = true;
-                     }
+                    }
                 }
             }
 
@@ -558,6 +611,14 @@ namespace DevApp.Child_Forms
                         e.Handled = true;
                     }
                 }
+            }
+        }
+
+        private void XtraMDICaixaManager_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!this.IsPreview)
+            {
+                CaixaQueries.SetCaixaObs(Globals.CaixaId, memoCaixaObs.Text);
             }
         }
     }

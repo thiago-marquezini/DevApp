@@ -17,6 +17,11 @@ namespace DevApp.SQLite.Queries
 {
     class clsUserQueries
     {
+        public DataTable Login(string Name, string Password)
+        {
+            return SQLiteQueryHelper.QueryToDataTable("SELECT * FROM users WHERE name = @name AND password = @password;", new SQLiteParameter[] { new SQLiteParameter("@name", Name), new SQLiteParameter("@password", Password) });
+        }
+
         public void CreateDatabase()
         {
             SQLiteConnection.CreateFile("F:\\DevAppSQLiteDB\\DevApp.sqlite");
@@ -54,60 +59,6 @@ namespace DevApp.SQLite.Queries
 
                 conn.Close();
             }
-        }
-
-        public bool Login(string User, string Password)
-        {
-            using (SQLiteConnection conn = new SQLiteConnection("data source=F:\\DevAppSQLiteDB\\DevApp.sqlite"))
-            {
-                using (SQLiteCommand cmd = new SQLiteCommand())
-                {
-                    cmd.Connection = conn;
-                    conn.Open();
-
-                    SQLiteHelper sh = new SQLiteHelper(cmd);
-
-                    DataTable dt = sh.Select("select * from users where name = @name and password = @password;",
-                    new SQLiteParameter[] {
-                        new SQLiteParameter("@name", sh.Escape(User)),
-                        new SQLiteParameter("@password", sh.Escape(Password))
-                    });
-
-                    if (dt.Rows.Count == 1)
-                    {
-                        DataRow r = dt.Rows[0];
-                        //foreach (DataRow r in dt.Rows)
-                        //{
-                        //}
-                        string LogginedUserLevel = r["level"].ToString();
-                        if (LogginedUserLevel == "1")
-                        {
-                            XtraMessageBox.Show("Login Success: " + r["name"].ToString(), "DevApp", MessageBoxButtons.OK);
-                            return true;
-                        } else
-                        {
-                            XtraMessageBox.Show("Login Not Authorized: " + r["name"].ToString(), "DevApp", MessageBoxButtons.OK);
-                            return false;
-                        }
-
-                    } else
-                    {
-                        XtraMessageBox.Show("Incorrect username or password.", "DevApp", MessageBoxButtons.OK);
-                    }
-
-                    // Create Users Table
-                    //SQLiteTable tb = new SQLiteTable("users");
-                    //tb.Columns.Add(new SQLiteColumn("id", true));
-                    //tb.Columns.Add(new SQLiteColumn("name"));
-                    //tb.Columns.Add(new SQLiteColumn("password"));
-                    //tb.Columns.Add(new SQLiteColumn("level", ColType.Decimal, false, false, true, "1"));
-                    //sh.CreateTable(tb);
-
-                    conn.Close();
-                }
-            }
-
-            return true;
         }
     }
 }

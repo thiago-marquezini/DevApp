@@ -217,7 +217,7 @@ namespace DevApp.PopUp_Forms
             this.radioActivityType.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
             new DevExpress.XtraEditors.Controls.RadioGroupItem("Dinheiro", "Dinheiro"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("Cheque", "Cheque"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem("DebitoCredito", "Debito/Credito"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem("Debito", "Debito"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("PIX", "PIX")});
             this.radioActivityType.Properties.ItemsLayout = DevExpress.XtraEditors.RadioGroupItemsLayout.Flow;
             this.radioActivityType.Size = new System.Drawing.Size(283, 34);
@@ -229,7 +229,7 @@ namespace DevApp.PopUp_Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(420, 328);
             this.Controls.Add(this.panelControl1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "XtraCaixaAddActivity";

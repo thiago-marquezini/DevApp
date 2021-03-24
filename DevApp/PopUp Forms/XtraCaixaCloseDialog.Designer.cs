@@ -33,8 +33,8 @@ namespace DevApp.PopUp_Forms
             this.panelBg = new DevExpress.XtraEditors.PanelControl();
             this.labelControl5 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
-            this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
-            this.txtCaixaSaldoInicial = new DevExpress.XtraEditors.TextEdit();
+            this.txtCaixaSaldoFinalTotal = new DevExpress.XtraEditors.TextEdit();
+            this.txtCaixaSaldoFinalDinheiro = new DevExpress.XtraEditors.TextEdit();
             this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
@@ -44,8 +44,8 @@ namespace DevApp.PopUp_Forms
             this.btnCloseAndPrint = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.panelBg)).BeginInit();
             this.panelBg.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCaixaSaldoInicial.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCaixaSaldoFinalTotal.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCaixaSaldoFinalDinheiro.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
             this.SuspendLayout();
@@ -57,8 +57,8 @@ namespace DevApp.PopUp_Forms
             this.panelBg.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.panelBg.Controls.Add(this.labelControl5);
             this.panelBg.Controls.Add(this.labelControl4);
-            this.panelBg.Controls.Add(this.textEdit1);
-            this.panelBg.Controls.Add(this.txtCaixaSaldoInicial);
+            this.panelBg.Controls.Add(this.txtCaixaSaldoFinalTotal);
+            this.panelBg.Controls.Add(this.txtCaixaSaldoFinalDinheiro);
             this.panelBg.Controls.Add(this.labelControl3);
             this.panelBg.Controls.Add(this.labelControl2);
             this.panelBg.Controls.Add(this.panelControl1);
@@ -91,55 +91,54 @@ namespace DevApp.PopUp_Forms
             this.labelControl4.TabIndex = 38;
             this.labelControl4.Text = "Saldo (Apenas Dinheiro)";
             // 
-            // textEdit1
+            // txtCaixaSaldoFinalTotal
             // 
-            this.textEdit1.EditValue = "R$ 0,00";
-            this.textEdit1.Location = new System.Drawing.Point(133, 229);
-            this.textEdit1.Name = "textEdit1";
-            this.textEdit1.Properties.Appearance.BackColor = System.Drawing.Color.PaleGreen;
-            this.textEdit1.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textEdit1.Properties.Appearance.Options.UseBackColor = true;
-            this.textEdit1.Properties.Appearance.Options.UseFont = true;
-            this.textEdit1.Properties.Appearance.Options.UseTextOptions = true;
-            this.textEdit1.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.textEdit1.Properties.BeepOnError = false;
-            this.textEdit1.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
-            this.textEdit1.Properties.MaskSettings.Set("MaskManagerType", typeof(DevExpress.Data.Mask.NumericMaskManager));
-            this.textEdit1.Properties.MaskSettings.Set("MaskManagerSignature", "allowNull=False");
-            this.textEdit1.Properties.MaskSettings.Set("culture", "pt-BR");
-            this.textEdit1.Properties.MaskSettings.Set("mask", "c");
-            this.textEdit1.Properties.MaskSettings.Set("hideInsignificantZeros", true);
-            this.textEdit1.Properties.MaskSettings.Set("valueAfterDelete", DevExpress.Data.Mask.NumericMaskManager.ValueAfterDelete.ZeroThenNull);
-            this.textEdit1.Properties.MaskSettings.Set("autoHideDecimalSeparator", true);
-            this.textEdit1.Properties.ReadOnly = true;
-            this.textEdit1.Properties.UseMaskAsDisplayFormat = true;
-            this.textEdit1.Size = new System.Drawing.Size(223, 26);
-            this.textEdit1.TabIndex = 37;
+            this.txtCaixaSaldoFinalTotal.EditValue = "R$ 0,00";
+            this.txtCaixaSaldoFinalTotal.Location = new System.Drawing.Point(133, 229);
+            this.txtCaixaSaldoFinalTotal.Name = "txtCaixaSaldoFinalTotal";
+            this.txtCaixaSaldoFinalTotal.Properties.Appearance.BackColor = System.Drawing.Color.PaleGreen;
+            this.txtCaixaSaldoFinalTotal.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCaixaSaldoFinalTotal.Properties.Appearance.Options.UseBackColor = true;
+            this.txtCaixaSaldoFinalTotal.Properties.Appearance.Options.UseFont = true;
+            this.txtCaixaSaldoFinalTotal.Properties.Appearance.Options.UseTextOptions = true;
+            this.txtCaixaSaldoFinalTotal.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtCaixaSaldoFinalTotal.Properties.BeepOnError = false;
+            this.txtCaixaSaldoFinalTotal.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+            this.txtCaixaSaldoFinalTotal.Properties.MaskSettings.Set("MaskManagerType", typeof(DevExpress.Data.Mask.NumericMaskManager));
+            this.txtCaixaSaldoFinalTotal.Properties.MaskSettings.Set("MaskManagerSignature", "allowNull=False");
+            this.txtCaixaSaldoFinalTotal.Properties.MaskSettings.Set("culture", "pt-BR");
+            this.txtCaixaSaldoFinalTotal.Properties.MaskSettings.Set("mask", "c");
+            this.txtCaixaSaldoFinalTotal.Properties.MaskSettings.Set("hideInsignificantZeros", true);
+            this.txtCaixaSaldoFinalTotal.Properties.MaskSettings.Set("valueAfterDelete", DevExpress.Data.Mask.NumericMaskManager.ValueAfterDelete.ZeroThenNull);
+            this.txtCaixaSaldoFinalTotal.Properties.MaskSettings.Set("autoHideDecimalSeparator", true);
+            this.txtCaixaSaldoFinalTotal.Properties.UseMaskAsDisplayFormat = true;
+            this.txtCaixaSaldoFinalTotal.Size = new System.Drawing.Size(223, 26);
+            this.txtCaixaSaldoFinalTotal.TabIndex = 37;
             // 
-            // txtCaixaSaldoInicial
+            // txtCaixaSaldoFinalDinheiro
             // 
-            this.txtCaixaSaldoInicial.EditValue = "R$ 0,00";
-            this.txtCaixaSaldoInicial.Location = new System.Drawing.Point(133, 152);
-            this.txtCaixaSaldoInicial.Name = "txtCaixaSaldoInicial";
-            this.txtCaixaSaldoInicial.Properties.Appearance.BackColor = System.Drawing.Color.SteelBlue;
-            this.txtCaixaSaldoInicial.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCaixaSaldoInicial.Properties.Appearance.Options.UseBackColor = true;
-            this.txtCaixaSaldoInicial.Properties.Appearance.Options.UseFont = true;
-            this.txtCaixaSaldoInicial.Properties.Appearance.Options.UseTextOptions = true;
-            this.txtCaixaSaldoInicial.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.txtCaixaSaldoInicial.Properties.BeepOnError = false;
-            this.txtCaixaSaldoInicial.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
-            this.txtCaixaSaldoInicial.Properties.MaskSettings.Set("MaskManagerType", typeof(DevExpress.Data.Mask.NumericMaskManager));
-            this.txtCaixaSaldoInicial.Properties.MaskSettings.Set("MaskManagerSignature", "allowNull=False");
-            this.txtCaixaSaldoInicial.Properties.MaskSettings.Set("culture", "pt-BR");
-            this.txtCaixaSaldoInicial.Properties.MaskSettings.Set("mask", "c");
-            this.txtCaixaSaldoInicial.Properties.MaskSettings.Set("hideInsignificantZeros", true);
-            this.txtCaixaSaldoInicial.Properties.MaskSettings.Set("valueAfterDelete", DevExpress.Data.Mask.NumericMaskManager.ValueAfterDelete.ZeroThenNull);
-            this.txtCaixaSaldoInicial.Properties.MaskSettings.Set("autoHideDecimalSeparator", true);
-            this.txtCaixaSaldoInicial.Properties.ReadOnly = true;
-            this.txtCaixaSaldoInicial.Properties.UseMaskAsDisplayFormat = true;
-            this.txtCaixaSaldoInicial.Size = new System.Drawing.Size(223, 26);
-            this.txtCaixaSaldoInicial.TabIndex = 36;
+            this.txtCaixaSaldoFinalDinheiro.EditValue = "R$ 0,00";
+            this.txtCaixaSaldoFinalDinheiro.Location = new System.Drawing.Point(133, 152);
+            this.txtCaixaSaldoFinalDinheiro.Name = "txtCaixaSaldoFinalDinheiro";
+            this.txtCaixaSaldoFinalDinheiro.Properties.Appearance.BackColor = System.Drawing.Color.SteelBlue;
+            this.txtCaixaSaldoFinalDinheiro.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCaixaSaldoFinalDinheiro.Properties.Appearance.Options.UseBackColor = true;
+            this.txtCaixaSaldoFinalDinheiro.Properties.Appearance.Options.UseFont = true;
+            this.txtCaixaSaldoFinalDinheiro.Properties.Appearance.Options.UseTextOptions = true;
+            this.txtCaixaSaldoFinalDinheiro.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.txtCaixaSaldoFinalDinheiro.Properties.BeepOnError = false;
+            this.txtCaixaSaldoFinalDinheiro.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+            this.txtCaixaSaldoFinalDinheiro.Properties.MaskSettings.Set("MaskManagerType", typeof(DevExpress.Data.Mask.NumericMaskManager));
+            this.txtCaixaSaldoFinalDinheiro.Properties.MaskSettings.Set("MaskManagerSignature", "allowNull=False");
+            this.txtCaixaSaldoFinalDinheiro.Properties.MaskSettings.Set("culture", "pt-BR");
+            this.txtCaixaSaldoFinalDinheiro.Properties.MaskSettings.Set("mask", "c");
+            this.txtCaixaSaldoFinalDinheiro.Properties.MaskSettings.Set("hideInsignificantZeros", true);
+            this.txtCaixaSaldoFinalDinheiro.Properties.MaskSettings.Set("valueAfterDelete", DevExpress.Data.Mask.NumericMaskManager.ValueAfterDelete.ZeroThenNull);
+            this.txtCaixaSaldoFinalDinheiro.Properties.MaskSettings.Set("autoHideDecimalSeparator", true);
+            this.txtCaixaSaldoFinalDinheiro.Properties.ReadOnly = true;
+            this.txtCaixaSaldoFinalDinheiro.Properties.UseMaskAsDisplayFormat = true;
+            this.txtCaixaSaldoFinalDinheiro.Size = new System.Drawing.Size(223, 26);
+            this.txtCaixaSaldoFinalDinheiro.TabIndex = 36;
             // 
             // labelControl3
             // 
@@ -216,7 +215,7 @@ namespace DevApp.PopUp_Forms
             this.btnCloseAndPrint.Name = "btnCloseAndPrint";
             this.btnCloseAndPrint.Size = new System.Drawing.Size(145, 48);
             this.btnCloseAndPrint.TabIndex = 3;
-            this.btnCloseAndPrint.Text = "Confirmar e Imprimir";
+            this.btnCloseAndPrint.Text = "Imprimir e Confirmar";
             this.btnCloseAndPrint.Click += new System.EventHandler(this.btnCloseAndPrint_Click);
             // 
             // XtraCaixaCloseDialog
@@ -230,17 +229,19 @@ namespace DevApp.PopUp_Forms
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.panelBg);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "XtraCaixaCloseDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Fechamento do Caixa";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.XtraCaixaCloseDialog_FormClosing);
+            this.Load += new System.EventHandler(this.XtraCaixaCloseDialog_Load);
             ((System.ComponentModel.ISupportInitialize)(this.panelBg)).EndInit();
             this.panelBg.ResumeLayout(false);
             this.panelBg.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCaixaSaldoInicial.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCaixaSaldoFinalTotal.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtCaixaSaldoFinalDinheiro.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
             this.panelControl1.PerformLayout();
@@ -258,8 +259,8 @@ namespace DevApp.PopUp_Forms
         private DevExpress.XtraEditors.SimpleButton btnCloseAndPrint;
         private DevExpress.XtraEditors.LabelControl labelControl2;
         private DevExpress.XtraEditors.LabelControl labelControl3;
-        private DevExpress.XtraEditors.TextEdit textEdit1;
-        private DevExpress.XtraEditors.TextEdit txtCaixaSaldoInicial;
+        private DevExpress.XtraEditors.TextEdit txtCaixaSaldoFinalTotal;
+        private DevExpress.XtraEditors.TextEdit txtCaixaSaldoFinalDinheiro;
         private DevExpress.XtraEditors.LabelControl labelControl4;
         private DevExpress.XtraEditors.LabelControl labelControl5;
     }
