@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using DevExpress.XtraGrid.Views.Base;
 using System.Globalization;
 using System.Drawing;
@@ -10,15 +9,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using DevExpress.XtraEditors.Repository;
 
-using DevApp.SQLite.Queries;
+using DevApp.SQLite;
 
 namespace DevApp.Child_Forms
 {
     public partial class XtraMDICaixaHistory : DevExpress.XtraEditors.XtraForm
     {
         CultureInfo CultureBR = new CultureInfo("pt-BR");
+
+        private SQLiteCipher CaixaHistConnection = new SQLiteCipher();
         private clsCaixaHistQueries CaixaHistQueries = new clsCaixaHistQueries();
 
         frmMain Main;
@@ -32,7 +32,7 @@ namespace DevApp.Child_Forms
 
         private void ListarCaixas()
         {
-            DataTable dt = CaixaHistQueries.ListarCaixas();
+            List<CaixaObj> dt = CaixaHistQueries.ListarCaixas(CaixaHistConnection.Connection());
             gridCaixaHist.DataSource = dt;
         }
 
@@ -47,14 +47,14 @@ namespace DevApp.Child_Forms
                     }
                 case 1:
                     {
-                        DataTable dt = CaixaHistQueries.ListarPorPeriodo(dateHistPesqInicio.Text, dateHistPesqFim.Text);
+                        List<CaixaObj> dt = CaixaHistQueries.ListarPorPeriodo(CaixaHistConnection.Connection(), dateHistPesqInicio.Text, dateHistPesqFim.Text);
                         gridCaixaHist.DataSource = dt;
 
                         break;
                     }
                 case 2:
                     {
-                        DataTable dt = CaixaHistQueries.ListarPorUsuario(comboHistPesqFuncionario.Text);
+                        List<CaixaObj> dt = CaixaHistQueries.ListarPorUsuario(CaixaHistConnection.Connection(), comboHistPesqFuncionario.Text);
                         gridCaixaHist.DataSource = dt;
 
                         break;
@@ -140,12 +140,12 @@ namespace DevApp.Child_Forms
 
         private void gridViewCaixaHist_CustomColumnDisplayText(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e)
         {
-            if ((e.Column.FieldName == "startvalue" 
-                || e.Column.FieldName == "endvalue" 
-                || e.Column.FieldName == "endvalueuser"
-                || e.Column.FieldName == "sangria"
-                || e.Column.FieldName == "despesas"
-                || e.Column.FieldName == "acrecimos") && e.ListSourceRowIndex != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
+            if ((e.Column.FieldName == "StartValue" 
+                || e.Column.FieldName == "EndValue" 
+                || e.Column.FieldName == "EndValueUser"
+                || e.Column.FieldName == "Sangria"
+                || e.Column.FieldName == "Despesas"
+                || e.Column.FieldName == "Acrecimos") && e.ListSourceRowIndex != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
             {
                 decimal price = Convert.ToDecimal(e.Value);
                 e.DisplayText = string.Format(CultureBR, "{0:c}", price);
@@ -156,7 +156,7 @@ namespace DevApp.Child_Forms
         {
             Brush brush;
 
-            if (e.Column.FieldName == "id")
+            if (e.Column.FieldName == "Id")
             {
                 brush = new SolidBrush(Color.Gray);
                 Rectangle r = e.Bounds;
@@ -165,7 +165,7 @@ namespace DevApp.Child_Forms
                 e.Handled = true;
             }
 
-            if (e.Column.FieldName == "isopen")
+            if (e.Column.FieldName == "IsOpen")
             {
                 if (e.DisplayText == "0")
                 {
@@ -189,14 +189,14 @@ namespace DevApp.Child_Forms
         {
             if (gridViewCaixaHist.FocusedRowHandle >= 0)
             {
-                string Status = gridViewCaixaHist.GetRowCellValue(gridViewCaixaHist.FocusedRowHandle, "isopen").ToString();
+                string Status = gridViewCaixaHist.GetRowCellValue(gridViewCaixaHist.FocusedRowHandle, "IsOpen").ToString();
                 if (Int32.Parse(Status) == 1)
                 {
                     this.Main.ShowCurrentCaixa();
 
                 } else
                 {
-                    int CaixaId = Int32.Parse(gridViewCaixaHist.GetFocusedRowCellValue("id").ToString());
+                    int CaixaId = Int32.Parse(gridViewCaixaHist.GetFocusedRowCellValue("Id").ToString());
                     this.Main.ShowCustomCaixa(CaixaId);
                 }
             }

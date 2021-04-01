@@ -10,12 +10,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using DevApp.Global;
-using DevApp.SQLite.Queries;
+using DevApp.SQLite;
 
 namespace DevApp.User_Forms
 {
     public partial class XtraLogin : DevExpress.XtraEditors.XtraForm
     {
+        private SQLiteCipher UserLoginConnection = new SQLiteCipher();
         private clsUserQueries UserQueries = new clsUserQueries();
 
         private frmMain Main;
@@ -34,15 +35,13 @@ namespace DevApp.User_Forms
         {
             if ((txtLoginName.Text.Length >= 5) && (editLoginPassword.Text.Length >= 5))
             {
-                DataTable UserInfo = UserQueries.Login(txtLoginName.Text, editLoginPassword.Text);
-                if (UserInfo.Rows.Count == 1)
+                List<UserObj> UserInfo = UserQueries.Login(UserLoginConnection.Connection(), txtLoginName.Text, editLoginPassword.Text);
+                if (UserInfo.Count == 1)
                 {
-                    DataRow UserRow = UserInfo.Rows[0];
-
-                    LogginedUser.Username = UserRow["name"].ToString();
-                    LogginedUser.DisplayName = UserRow["displayname"].ToString();
-                    LogginedUser.Level = Int32.Parse(UserRow["level"].ToString());
-                    LogginedUser.LastActivity = UserRow["activity"].ToString();
+                    LogginedUser.Username = UserInfo[0].Name;
+                    LogginedUser.DisplayName = UserInfo[0].DisplayName;
+                    LogginedUser.Level = Int32.Parse(UserInfo[0].Level);
+                    LogginedUser.LastActivity = UserInfo[0].Activity;
 
                     LogginedUser.Loggined = true;
 

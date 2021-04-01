@@ -43,6 +43,8 @@ namespace DevApp.Child_Forms
             this.colformapgto = new DevExpress.XtraGrid.Columns.GridColumn();
             this.coltipo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.sidePanel1 = new DevExpress.XtraEditors.SidePanel();
+            this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl5 = new DevExpress.XtraEditors.LabelControl();
             this.txtCaixaSaldoInicial = new DevExpress.XtraEditors.TextEdit();
             this.lblCaixaOpenTime = new DevExpress.XtraEditors.LabelControl();
             this.btnCaixaOpenClose = new DevExpress.XtraEditors.SimpleButton();
@@ -61,6 +63,7 @@ namespace DevApp.Child_Forms
             this.clnRecordDescription = new DevExpress.XtraGrid.Columns.GridColumn();
             this.clnRecordValue = new DevExpress.XtraGrid.Columns.GridColumn();
             this.txtCalcText = new DevExpress.XtraEditors.TextEdit();
+            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.gridCaixaActivity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewCaixaActivity)).BeginInit();
             this.sidePanel1.SuspendLayout();
@@ -84,14 +87,14 @@ namespace DevApp.Child_Forms
             this.btnDeleteActivity.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.btnDeleteActivity.Size = new System.Drawing.Size(146, 40);
             this.btnDeleteActivity.TabIndex = 7;
-            this.btnDeleteActivity.Text = "Caixa Fechado";
+            this.btnDeleteActivity.Text = "Excluir Lancamento";
             this.btnDeleteActivity.Click += new System.EventHandler(this.btnDeleteActivity_Click);
             // 
             // btnAddActivity
             // 
             this.btnAddActivity.Enabled = false;
             this.btnAddActivity.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btnAddActivity.ImageOptions.SvgImage")));
-            this.btnAddActivity.Location = new System.Drawing.Point(380, 503);
+            this.btnAddActivity.Location = new System.Drawing.Point(378, 504);
             this.btnAddActivity.Name = "btnAddActivity";
             this.btnAddActivity.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.btnAddActivity.Size = new System.Drawing.Size(175, 40);
@@ -147,19 +150,19 @@ namespace DevApp.Child_Forms
             // colid
             // 
             this.colid.Caption = "Id";
-            this.colid.FieldName = "id";
+            this.colid.FieldName = "Id";
             this.colid.Name = "colid";
             // 
             // colid_caixa
             // 
             this.colid_caixa.Caption = "Id Caixa";
-            this.colid_caixa.FieldName = "id_caixa";
+            this.colid_caixa.FieldName = "IdCaixa";
             this.colid_caixa.Name = "colid_caixa";
             // 
             // coldataehora
             // 
             this.coldataehora.Caption = "Data / Hora";
-            this.coldataehora.FieldName = "dataehora";
+            this.coldataehora.FieldName = "DataHora";
             this.coldataehora.Name = "coldataehora";
             this.coldataehora.Visible = true;
             this.coldataehora.VisibleIndex = 0;
@@ -167,7 +170,7 @@ namespace DevApp.Child_Forms
             // coldescricao
             // 
             this.coldescricao.Caption = "Descricao";
-            this.coldescricao.FieldName = "descricao";
+            this.coldescricao.FieldName = "Descricao";
             this.coldescricao.Name = "coldescricao";
             this.coldescricao.Visible = true;
             this.coldescricao.VisibleIndex = 1;
@@ -175,7 +178,7 @@ namespace DevApp.Child_Forms
             // colentrada
             // 
             this.colentrada.Caption = "Entrada";
-            this.colentrada.FieldName = "entrada";
+            this.colentrada.FieldName = "Entrada";
             this.colentrada.Name = "colentrada";
             this.colentrada.Visible = true;
             this.colentrada.VisibleIndex = 2;
@@ -183,7 +186,7 @@ namespace DevApp.Child_Forms
             // colsaida
             // 
             this.colsaida.Caption = "Saida";
-            this.colsaida.FieldName = "saida";
+            this.colsaida.FieldName = "Saida";
             this.colsaida.Name = "colsaida";
             this.colsaida.Visible = true;
             this.colsaida.VisibleIndex = 3;
@@ -191,7 +194,7 @@ namespace DevApp.Child_Forms
             // colformapgto
             // 
             this.colformapgto.Caption = "Forma de Pgto.";
-            this.colformapgto.FieldName = "formapgto";
+            this.colformapgto.FieldName = "FormaPgto";
             this.colformapgto.Name = "colformapgto";
             this.colformapgto.Visible = true;
             this.colformapgto.VisibleIndex = 4;
@@ -199,13 +202,15 @@ namespace DevApp.Child_Forms
             // coltipo
             // 
             this.coltipo.Caption = "Tipo";
-            this.coltipo.FieldName = "tipo";
+            this.coltipo.FieldName = "Tipo";
             this.coltipo.Name = "coltipo";
             // 
             // sidePanel1
             // 
             this.sidePanel1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.sidePanel1.Appearance.Options.UseBackColor = true;
+            this.sidePanel1.Controls.Add(this.labelControl3);
+            this.sidePanel1.Controls.Add(this.labelControl5);
             this.sidePanel1.Controls.Add(this.txtCaixaSaldoInicial);
             this.sidePanel1.Controls.Add(this.lblCaixaOpenTime);
             this.sidePanel1.Controls.Add(this.btnCaixaOpenClose);
@@ -217,9 +222,29 @@ namespace DevApp.Child_Forms
             this.sidePanel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.sidePanel1.Location = new System.Drawing.Point(0, 0);
             this.sidePanel1.Name = "sidePanel1";
-            this.sidePanel1.Size = new System.Drawing.Size(220, 550);
+            this.sidePanel1.Size = new System.Drawing.Size(220, 551);
             this.sidePanel1.TabIndex = 23;
             this.sidePanel1.Text = "Caixa Fechado";
+            // 
+            // labelControl3
+            // 
+            this.labelControl3.Appearance.ForeColor = System.Drawing.Color.White;
+            this.labelControl3.Appearance.Options.UseForeColor = true;
+            this.labelControl3.Location = new System.Drawing.Point(21, 517);
+            this.labelControl3.Name = "labelControl3";
+            this.labelControl3.Size = new System.Drawing.Size(71, 13);
+            this.labelControl3.TabIndex = 37;
+            this.labelControl3.Text = "Caixa Fechado";
+            // 
+            // labelControl5
+            // 
+            this.labelControl5.Appearance.ForeColor = System.Drawing.Color.Silver;
+            this.labelControl5.Appearance.Options.UseForeColor = true;
+            this.labelControl5.Location = new System.Drawing.Point(21, 500);
+            this.labelControl5.Name = "labelControl5";
+            this.labelControl5.Size = new System.Drawing.Size(135, 13);
+            this.labelControl5.TabIndex = 36;
+            this.labelControl5.Text = "Data e Hora do Fechamento";
             // 
             // txtCaixaSaldoInicial
             // 
@@ -247,7 +272,7 @@ namespace DevApp.Child_Forms
             // 
             this.lblCaixaOpenTime.Appearance.ForeColor = System.Drawing.Color.White;
             this.lblCaixaOpenTime.Appearance.Options.UseForeColor = true;
-            this.lblCaixaOpenTime.Location = new System.Drawing.Point(20, 509);
+            this.lblCaixaOpenTime.Location = new System.Drawing.Point(21, 473);
             this.lblCaixaOpenTime.Name = "lblCaixaOpenTime";
             this.lblCaixaOpenTime.Size = new System.Drawing.Size(71, 13);
             this.lblCaixaOpenTime.TabIndex = 34;
@@ -268,7 +293,7 @@ namespace DevApp.Child_Forms
             // 
             this.labelControl4.Appearance.ForeColor = System.Drawing.Color.Silver;
             this.labelControl4.Appearance.Options.UseForeColor = true;
-            this.labelControl4.Location = new System.Drawing.Point(20, 492);
+            this.labelControl4.Location = new System.Drawing.Point(21, 456);
             this.labelControl4.Name = "labelControl4";
             this.labelControl4.Size = new System.Drawing.Size(119, 13);
             this.labelControl4.TabIndex = 30;
@@ -328,7 +353,7 @@ namespace DevApp.Child_Forms
             // 
             this.btnPrintResumoCaixa.Enabled = false;
             this.btnPrintResumoCaixa.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btnPrintResumoCaixa.ImageOptions.SvgImage")));
-            this.btnPrintResumoCaixa.Location = new System.Drawing.Point(733, 503);
+            this.btnPrintResumoCaixa.Location = new System.Drawing.Point(731, 504);
             this.btnPrintResumoCaixa.Name = "btnPrintResumoCaixa";
             this.btnPrintResumoCaixa.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.btnPrintResumoCaixa.Size = new System.Drawing.Size(136, 40);
@@ -340,7 +365,7 @@ namespace DevApp.Child_Forms
             // 
             this.btnPrintMovCaixa.Enabled = false;
             this.btnPrintMovCaixa.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btnPrintMovCaixa.ImageOptions.SvgImage")));
-            this.btnPrintMovCaixa.Location = new System.Drawing.Point(562, 504);
+            this.btnPrintMovCaixa.Location = new System.Drawing.Point(560, 504);
             this.btnPrintMovCaixa.Name = "btnPrintMovCaixa";
             this.btnPrintMovCaixa.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.btnPrintMovCaixa.Size = new System.Drawing.Size(163, 40);
@@ -465,11 +490,21 @@ namespace DevApp.Child_Forms
             this.txtCalcText.TabIndex = 36;
             this.txtCalcText.Visible = false;
             // 
+            // simpleButton1
+            // 
+            this.simpleButton1.Location = new System.Drawing.Point(873, 511);
+            this.simpleButton1.Name = "simpleButton1";
+            this.simpleButton1.Size = new System.Drawing.Size(75, 26);
+            this.simpleButton1.TabIndex = 37;
+            this.simpleButton1.Text = "simpleButton1";
+            this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
+            // 
             // XtraMDICaixaManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1131, 550);
+            this.ClientSize = new System.Drawing.Size(1131, 551);
+            this.Controls.Add(this.simpleButton1);
             this.Controls.Add(this.txtCalcText);
             this.Controls.Add(this.panelCaixaReceipt);
             this.Controls.Add(this.btnPrintResumoCaixa);
@@ -535,5 +570,8 @@ namespace DevApp.Child_Forms
         private DevExpress.XtraGrid.Columns.GridColumn clnRecordDescription;
         private DevExpress.XtraGrid.Columns.GridColumn clnRecordValue;
         private DevExpress.XtraEditors.TextEdit txtCalcText;
+        private DevExpress.XtraEditors.LabelControl labelControl3;
+        private DevExpress.XtraEditors.LabelControl labelControl5;
+        private DevExpress.XtraEditors.SimpleButton simpleButton1;
     }
 }

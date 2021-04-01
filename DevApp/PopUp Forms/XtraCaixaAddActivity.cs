@@ -10,13 +10,16 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using DevApp.Child_Forms;
-using DevApp.SQLite.Queries;
+using DevApp.SQLite;
 
 namespace DevApp.PopUp_Forms
 {
     public partial class XtraCaixaAddActivity : DevExpress.XtraEditors.XtraForm
     {
+
+        private SQLiteCipher CaixaAddActConnection = new SQLiteCipher();
         private clsCaixaQueries CaixaQueries = new clsCaixaQueries();
+
         private int CaixaId = -1;
         private XtraMDICaixaManager CaixaForm;
 
@@ -35,7 +38,7 @@ namespace DevApp.PopUp_Forms
 
         private void btnAddActivity_Click(object sender, EventArgs e)
         {
-            if (CaixaQueries.AddCaixaActivity(this.CaixaId, radioActivityType.SelectedIndex, radioOperacaoTipo.SelectedIndex, editValorActivity.Text, -1, -1, "manual"))
+            if (CaixaQueries.AddCaixaActivity(CaixaAddActConnection.Connection(), radioActivityType.SelectedIndex, radioOperacaoTipo.SelectedIndex, editValorActivity.Text, -1, -1, "manual"))
             {
                 this.Close();
                 CaixaForm.GetCaixaActivity();

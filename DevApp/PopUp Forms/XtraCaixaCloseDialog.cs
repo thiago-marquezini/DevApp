@@ -11,14 +11,12 @@ using System.Windows.Forms;
 
 using DevApp.Global;
 using DevApp.Child_Forms;
-using DevApp.SQLite.Queries;
+using DevApp.SQLite;
 
 namespace DevApp.PopUp_Forms
 {
     public partial class XtraCaixaCloseDialog : DevExpress.XtraEditors.XtraForm
     {
-        private clsCaixaQueries CaixaQueries = new clsCaixaQueries();
-
         public bool DecisionMade = false;
         public int  DecisionId   = -1;
 

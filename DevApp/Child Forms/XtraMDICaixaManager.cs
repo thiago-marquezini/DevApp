@@ -2,21 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using System.Globalization;
+
+using DevExpress.XtraSplashScreen;
+using DevExpress.XtraGrid.Views.Base;
 
 using DevApp.Global;
 using DevApp.Class_DataSource;
 using DevApp.PopUp_Forms;
-using DevApp.SQLite.Queries;
-
-using DevExpress.XtraSplashScreen;
-using DevExpress.XtraGrid.Views.Base;
-using System.Globalization;
+using DevApp.SQLite;
 
 namespace DevApp.Child_Forms
 {
@@ -26,7 +25,10 @@ namespace DevApp.Child_Forms
         public int PreviewCaixaId = 0;
 
         CultureInfo CultureBR = new CultureInfo("pt-BR");
+
+        private SQLiteCipher CaixaConnection = new SQLiteCipher();
         private clsCaixaQueries CaixaQueries = new clsCaixaQueries();
+
         private List<ClsDSCaixaResumo> CaixaItensResumo = new List<ClsDSCaixaResumo>();
 
         public XtraMDICaixaManager(bool _IsPreview, int _PreviewCaixaId = 0)
@@ -94,32 +96,28 @@ namespace DevApp.Child_Forms
 
         public void GetCustomCaixaInfo(int CaixaId)
         {
-            DataTable cCaixaInfo = CaixaQueries.GetCustomCaixaInfo(CaixaId);
-            if (cCaixaInfo.Rows.Count == 1)
+            List<CaixaObj> cCaixaInfo = CaixaQueries.GetCustomCaixaInfo(CaixaConnection.Connection(), CaixaId);
+            if (cCaixaInfo.Count == 1)
             {
-                DataRow cCaixaRow = cCaixaInfo.Rows[0];
+                Globals.CaixaId = cCaixaInfo[0].Id;
 
-                Globals.CaixaId = Int32.Parse(cCaixaRow["id"].ToString());
-
-                txtCaixaSaldoInicial.Text = cCaixaRow["startvalue"].ToString();
-                lblCaixaOpenTime.Text = cCaixaRow["openedat"].ToString();
-                memoCaixaObs.Text = cCaixaRow["obs"].ToString();
+                txtCaixaSaldoInicial.Text = cCaixaInfo[0].StartValue;
+                lblCaixaOpenTime.Text = cCaixaInfo[0].OpenedAt;
+                memoCaixaObs.Text = cCaixaInfo[0].Obs;
             }
         }
 
         private void GetCurrentCaixaInfo()
         {
-            DataTable CaixaInfo = CaixaQueries.GetCaixaInfo();
-            if (CaixaInfo.Rows.Count == 1)
+            List<CaixaObj> CaixaInfo = CaixaQueries.GetCaixaInfo(CaixaConnection.Connection());
+            if (CaixaInfo.Count == 1)
             {
-                DataRow CaixaRow = CaixaInfo.Rows[0];
-
                 Globals.IsCaixaOpen = true;
-                Globals.CaixaId = Int32.Parse(CaixaRow["id"].ToString());
+                Globals.CaixaId = CaixaInfo[0].Id;
 
-                txtCaixaSaldoInicial.Text = CaixaRow["startvalue"].ToString();
-                lblCaixaOpenTime.Text = CaixaRow["openedat"].ToString();
-                memoCaixaObs.Text = CaixaRow["obs"].ToString();
+                txtCaixaSaldoInicial.Text = CaixaInfo[0].StartValue;
+                lblCaixaOpenTime.Text = CaixaInfo[0].OpenedAt;
+                memoCaixaObs.Text = CaixaInfo[0].Obs;
             }
         }
 
@@ -139,62 +137,60 @@ namespace DevApp.Child_Forms
             int ValorTotal;
             int ValorTotalDinheiro;
 
-            DataTable CaixaInfo = CaixaQueries.GetCaixaValorInicial(Globals.CaixaId);
-            if (CaixaInfo.Rows.Count == 1)
+            List<CaixaObj> CaixaInfo = CaixaQueries.GetCustomCaixaInfo(CaixaConnection.Connection(), Globals.CaixaId);
+            if (CaixaInfo.Count == 1)
             {
-                DataRow ValorInicialRow = CaixaInfo.Rows[0];
-                ValorInicial = Int32.Parse(ValorInicialRow["startvalue"].ToString().Replace(".", "").Replace(",", ""));
+                string sValorInicial = CaixaInfo[0].StartValue;
+                ValorInicial = Int32.Parse(sValorInicial.Replace(".", "").Replace(",", ""));
             }
 
-            DataTable CaixaActivity = CaixaQueries.GetCaixaActivity(Globals.CaixaId);
-            if (CaixaActivity.Rows.Count > 0)
+            List<CaixaActivityObj> CaixaActivity = CaixaQueries.GetCaixaActivity(CaixaConnection.Connection(), Globals.CaixaId);
+            if (CaixaActivity.Count > 0)
             {
-                CntTotalLancamentos = CaixaActivity.Rows.Count;
-
-                foreach (DataRow Row in CaixaActivity.Rows)
+                CaixaActivity.ForEach(delegate (CaixaActivityObj Activity)
                 {
-                    int ActDirection = Int32.Parse(Row["direction"].ToString());
+                    int ActDirection = Int32.Parse(Activity.Direction);
                     switch (ActDirection)
                     {
                         case 0:
                             {
-                                string ValorSaida = Row["saida"].ToString();
+                                string ValorSaida = Activity.Saida;
                                 ValorSaida = ValorSaida.Replace(".", "").Replace(",", "");
                                 int iValorSaida = Int32.Parse(ValorSaida);
                                 SomaSaidasDespesas += iValorSaida;
                                 SomaSaidas += iValorSaida;
-                                if ((Row["formapgto"].ToString() == "Dinheiro") || (Row["formapgto"].ToString() == "Cheque")) { SomaSaidasDinheiro += iValorSaida; }
-                                if ((Row["formapgto"].ToString() == "Debito") || (Row["formapgto"].ToString() == "PIX")) { SomaSaidasCartaoPix += iValorSaida; }
+                                if ((Activity.FormaPgto == "Dinheiro") || (Activity.FormaPgto == "Cheque")) { SomaSaidasDinheiro += iValorSaida; }
+                                if ((Activity.FormaPgto == "Debito") || (Activity.FormaPgto == "PIX")) { SomaSaidasCartaoPix += iValorSaida; }
                                 break;
                             }
 
                         case 1:
                             {
-                                string ValorSaida = Row["saida"].ToString();
+                                string ValorSaida = Activity.Saida;
                                 ValorSaida = ValorSaida.Replace(".", "").Replace(",", "");
                                 int iValorSaida = Int32.Parse(ValorSaida);
                                 SomaSaidasSangria += iValorSaida;
                                 SomaSaidas += iValorSaida;
-                                if ((Row["formapgto"].ToString() == "Dinheiro") || (Row["formapgto"].ToString() == "Cheque")) { SomaSaidasDinheiro += iValorSaida; }
-                                if ((Row["formapgto"].ToString() == "Debito") || (Row["formapgto"].ToString() == "PIX")) { SomaSaidasCartaoPix += iValorSaida; }
+                                if ((Activity.FormaPgto == "Dinheiro") || (Activity.FormaPgto == "Cheque")) { SomaSaidasDinheiro += iValorSaida; }
+                                if ((Activity.FormaPgto == "Debito") || (Activity.FormaPgto == "PIX")) { SomaSaidasCartaoPix += iValorSaida; }
                                 break;
                             }
 
                         case 2:
                             {
-                                string ValorEntrada = Row["entrada"].ToString();
+                                string ValorEntrada = Activity.Entrada;
                                 ValorEntrada = ValorEntrada.Replace(".", "").Replace(",", "");
                                 int iValorEntrada = Int32.Parse(ValorEntrada);
                                 SomaEntradas += iValorEntrada;
-                                if ((Row["formapgto"].ToString() == "Dinheiro") || (Row["formapgto"].ToString() == "Cheque")) { SomaEntradasDinheiro += iValorEntrada; }
-                                if ((Row["formapgto"].ToString() == "Debito") || (Row["formapgto"].ToString() == "PIX")) { SomaEntradasCartaoPix += iValorEntrada; }
+                                if ((Activity.FormaPgto == "Dinheiro") || (Activity.FormaPgto == "Cheque")) { SomaEntradasDinheiro += iValorEntrada; }
+                                if ((Activity.FormaPgto == "Debito") || (Activity.FormaPgto == "PIX")) { SomaEntradasCartaoPix += iValorEntrada; }
 
                                 break;
                             }
 
                         default: break;
                     }
-                }
+                });
 
                 TotalEntradaSaida = SomaEntradas - SomaSaidas;
             }
@@ -205,7 +201,7 @@ namespace DevApp.Child_Forms
             // Fechamento de Caixa
             if (CloseCaixa)
             {
-                if (CaixaQueries.CloseCaixa((CntTotalLancamentos != 0) ? CntTotalLancamentos.ToString() : "0,00",
+                if (CaixaQueries.CloseCaixa(CaixaConnection.Connection(), (CntTotalLancamentos != 0) ? CntTotalLancamentos.ToString() : "0,00",
                                             (ValorTotal != 0) ? ValorTotal.ToString().Insert(ValorTotal.ToString().Length - 2, ",") : "0,00",
                                             UserInputEndVal,
                                             (SomaSaidasSangria != 0) ? SomaSaidasSangria.ToString().Insert(SomaSaidasSangria.ToString().Length - 2, ",") : "0,00",
@@ -324,7 +320,7 @@ namespace DevApp.Child_Forms
 
         public void GetCaixaActivity()
         {
-            DataTable dt = CaixaQueries.GetCaixaActivity(Globals.CaixaId);
+            List<CaixaActivityObj> dt = CaixaQueries.GetCaixaActivity(CaixaConnection.Connection(), Globals.CaixaId);
             gridCaixaActivity.DataSource = dt;
         }
 
@@ -332,22 +328,27 @@ namespace DevApp.Child_Forms
         {
             CaixaItensResumo.Clear();
 
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 0, Descricao = "(+) SALDO INICIAL", Valor = "R$ 0,00" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 1, Descricao = "(+) ENTRADAS NO CAIXA", Valor = "" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 2, Descricao = "  PEDIDOS", Valor = "" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 3, Descricao = "   Dinheiro/Cheque", Valor = "R$ 0,00" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 4, Descricao = "   Debito/PIX", Valor = "R$ 0,00" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 5, Descricao = "  ACRECIMOS", Valor = "" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 6, Descricao = "   Dinheiro/Cheque", Valor = "R$ 0,00" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 7, Descricao = "   Debito/PIX", Valor = "R$ 0,00" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 8, Descricao = "  TOTAL", Valor = "" });
-            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 9, Descricao = "   Total:", Valor = "R$ 0,00" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 0,  Descricao = "(+) SALDO INICIAL", Valor = "R$ 0,00" });
+
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 1,  Descricao = "(+) ENTRADAS NO CAIXA", Valor = "" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 2,  Descricao = "  PEDIDOS", Valor = "" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 3,  Descricao = "   Dinheiro/Cheque", Valor = "R$ 0,00" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 4,  Descricao = "   Debito/PIX", Valor = "R$ 0,00" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 5,  Descricao = "  ACRECIMOS", Valor = "" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 6,  Descricao = "   Dinheiro/Cheque", Valor = "R$ 0,00" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 7,  Descricao = "   Debito/PIX", Valor = "R$ 0,00" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 8,  Descricao = "  TOTAL", Valor = "" });
+            CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 9,  Descricao = "   Total:", Valor = "R$ 0,00" });
+
             CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 10, Descricao = "", Valor = "" });
+
             CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 11, Descricao = "(+) SAIDAS NO CAIXA", Valor = "" });
             CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 12, Descricao = "  SANGRIAS E DESPESAS", Valor = "" });
             CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 13, Descricao = "   Dinheiro/Cheque", Valor = "R$ 0,00" });
             CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 14, Descricao = "   Debito/PIX", Valor = "R$ 0,00" });
+
             CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 15, Descricao = "", Valor = "" });
+
             CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 16, Descricao = "(=) SALDO FINAL", Valor = "" });
             CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 17, Descricao = "  Somente Dinheiro", Valor = "R$ 0,00" });
             CaixaItensResumo.Add(new ClsDSCaixaResumo() { ID = 18, Descricao = "  TUDO:", Valor = "R$ 0,00" });
@@ -371,8 +372,8 @@ namespace DevApp.Child_Forms
             {
                 if (XtraMessageBox.Show("Tem certeza que deseja remover este registro?", "Confirmar exclusao", MessageBoxButtons.YesNo) != DialogResult.No)
                 {
-                    string ActivityId = gridViewCaixaActivity.GetFocusedRowCellValue("id").ToString();
-                    CaixaQueries.DeleteCaixaActivity(ActivityId);
+                    string ActivityId = gridViewCaixaActivity.GetFocusedRowCellValue("Id").ToString();
+                    CaixaQueries.DeleteCaixaActivity(CaixaConnection.Connection(), ActivityId);
 
                     gridViewCaixaActivity.DeleteRow(gridViewCaixaActivity.FocusedRowHandle);
 
@@ -485,7 +486,7 @@ namespace DevApp.Child_Forms
             }
             else
             {
-                if (CaixaQueries.OpenCaixa(txtCaixaSaldoInicial.Text))
+                if (CaixaQueries.OpenCaixa(CaixaConnection.Connection(), txtCaixaSaldoInicial.Text, memoCaixaObs.Text))
                 {
                     SplashScreenManager.ShowForm(typeof(WaitForm1));
                     Thread.Sleep(1000);
@@ -514,9 +515,9 @@ namespace DevApp.Child_Forms
         {
             if (gridViewCaixaActivity.FocusedRowHandle >= 0)
             {
-                if (this.IsPreview == false)
+                if (!this.IsPreview)
                 {
-                    string ActivityType = gridViewCaixaActivity.GetFocusedRowCellValue("tipo").ToString();
+                    string ActivityType = gridViewCaixaActivity.GetFocusedRowCellValue("Tipo").ToString();
                     if ((ActivityType == "pedido") || (ActivityType == "inicial"))
                     {
                         btnDeleteActivity.Enabled = false;
@@ -555,7 +556,7 @@ namespace DevApp.Child_Forms
         private void gridViewCaixaActivity_CustomColumnDisplayText(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e)
         {
             ColumnView view = sender as ColumnView;
-            if (e.Column.FieldName == "entrada" && e.ListSourceRowIndex != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
+            if (e.Column.FieldName == "Entrada" && e.ListSourceRowIndex != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
             {
                 if (e.Value.ToString().Length > 0)
                 {
@@ -567,7 +568,7 @@ namespace DevApp.Child_Forms
 
             }
 
-            if (e.Column.FieldName == "saida" && e.ListSourceRowIndex != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
+            if (e.Column.FieldName == "Saida" && e.ListSourceRowIndex != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
             {
                 if (e.Value.ToString().Length > 0)
                 {
@@ -581,7 +582,7 @@ namespace DevApp.Child_Forms
 
         private void gridViewCaixaActivity_CustomDrawCell(object sender, RowCellCustomDrawEventArgs e)
         {
-            if (e.Column.FieldName == "entrada")
+            if (e.Column.FieldName == "Entrada")
             {
                 if (e.DisplayText.Length > 0)
                 {
@@ -597,7 +598,7 @@ namespace DevApp.Child_Forms
                 }
             }
 
-            if (e.Column.FieldName == "saida")
+            if (e.Column.FieldName == "Saida")
             {
                 if (e.DisplayText.Length > 0)
                 {
@@ -618,8 +619,13 @@ namespace DevApp.Child_Forms
         {
             if (!this.IsPreview)
             {
-                CaixaQueries.SetCaixaObs(Globals.CaixaId, memoCaixaObs.Text);
+                CaixaQueries.SetCaixaObs(CaixaConnection.Connection(), memoCaixaObs.Text);
             }
+        }
+
+        private void simpleButton1_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }

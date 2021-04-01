@@ -3,142 +3,179 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using System.Windows.Forms;
-using System.Data;
-using System.Data.SQLite;
+using SQLite;
 
 using DevApp.Global;
 
-namespace DevApp.SQLite.Queries
+namespace DevApp.SQLite
 {
     class clsCaixaQueries
     {
-        public bool OpenCaixa(string StartValue)
+        public bool OpenCaixa(SQLiteConnection db, string StartValue, string Obs)
         {
             StartValue = StartValue.Replace("R$ ", "");
 
-            try
+            var Caixa = new CaixaObj()
             {
-                SQLiteQueryHelper.ExecuteQuery("INSERT INTO caixa (openedat,closedat,owner,isopen,startvalue,total_lancamentos,obs,endvalue,endvalueuser,sangria,despesas,acrecimos,opendate) VALUES (@openedat,@closedat,@owner,@isopen,@startvalue,@total_lancamentos,@obs,@endvalue,@endvalueuser,@sangria,@despesas,@acrecimos,@opendate)",
-                                            new SQLiteParameter[] {
-                                                new SQLiteParameter("@openedat", DateTime.Now.ToString("d/MM/yyyy h:mm:ss tt")),
-                                                new SQLiteParameter("@closedat", ""),
-                                                new SQLiteParameter("@owner", "Sistema"),
-                                                new SQLiteParameter("@isopen", "1"),
-                                                new SQLiteParameter("@startvalue", StartValue),
-                                                new SQLiteParameter("@total_lancamentos", "1"),
-                                                new SQLiteParameter("@obs", 0),
-                                                new SQLiteParameter("@endvalue", "0,00"),
-                                                new SQLiteParameter("@endvalueuser", "0,00"),
-                                                new SQLiteParameter("@sangria", "0,00"),
-                                                new SQLiteParameter("@despesas", "0,00"),
-                                                new SQLiteParameter("@acrecimos", "0,00"),
-                                                new SQLiteParameter("@opendate", DateTime.Now.ToString("d/MM/yyyy")),     
-                                            });
+                OpenedAt = DateTime.Now.ToString("d/MM/yyyy h:mm:ss tt"),
+                ClosedAt = "",
+                Owner = "Sistema",
+                IsOpen = "1",
+                StartValue = StartValue,
+                TotalLancamentos = "1",
+                Obs = Obs,
+                EndValue = "0,00",
+                EndValueUser = "0,00",
+                Sangria = "0,00",
+                Despesas = "0,00",
+                Acrecimos = "0,00",
+                OpenDate = DateTime.Now.ToString("d/MM/yyyy")
 
-                DataTable CaixaInfo = GetCaixaInfo();
-                if (CaixaInfo.Rows.Count == 1)
-                {
-                    DataRow CaixaRow = CaixaInfo.Rows[0];
-                    AddCaixaActivity(Convert.ToInt32(CaixaRow["id"].ToString()), 0, 3, StartValue, -1, -1, "inicial");
+            };
 
-                } else
+            if (db.Insert(Caixa) > 0) 
+            {
+                var CaixaActivity = new CaixaActivityObj()
                 {
-                    MessageBox.Show("Houve uma falha ao abrir o caixa. Contate o administrador.", "Erro");
+                    IdCaixa = Caixa.Id,
+                    DataHora = DateTime.Now.ToString("d/MM/yyyy h:mm:ss tt"),
+                    Descricao = "Saldo Inicial",
+                    Entrada = StartValue,
+                    Saida = "",
+                    FormaPgto = "Dinheiro",
+                    Tipo = "inicial",
+                    IdPedido = "",
+                    Direction = "3"
+                };
+
+                if (db.Insert(CaixaActivity) > 0)
+                {
+                    return true;
                 }
-                    
 
-                return true;
-
-            }
-            catch
-            {
                 return false;
+
+            } else
+            { 
+                return false; 
             }
         }
 
-        public bool CloseCaixa(string total_lancamentos, string endvalue, string endvalueuser, string sangria, string despesas, string acrecimos)
+        public bool CloseCaixa(SQLiteConnection db, string total_lancamentos, string endvalue, string endvalueuser, string sangria, string despesas, string acrecimos)
         {
-            return SQLiteQueryHelper.ExecuteQuery("UPDATE caixa SET isopen = 0, closedat = @closedat, total_lancamentos = @total_lancamentos," +
-                                                  " endvalue = @endvalue, endvalueuser = @endvalueuser, sangria = @sangria, despesas = @despesas," +
-                                                  " acrecimos = @acrecimos WHERE isopen = 1 AND id = @id;", 
-                                                new SQLiteParameter[] {
-                                                    new SQLiteParameter("@closedat", DateTime.Now.ToString("d/MM/yyyy h:mm:ss tt")),
-                                                    new SQLiteParameter("@total_lancamentos", total_lancamentos),
-                                                    new SQLiteParameter("@endvalue", endvalue),
-                                                    new SQLiteParameter("@endvalueuser", endvalueuser.Replace("R$ ", "")),
-                                                    new SQLiteParameter("@sangria", sangria),
-                                                    new SQLiteParameter("@despesas", despesas),
-                                                    new SQLiteParameter("@acrecimos", acrecimos),
+            List<CaixaObj> CurrentCaixa = db.Table<CaixaObj>().Where(t => t.Id == Globals.CaixaId).ToList();
 
-                                                    new SQLiteParameter("@id", Globals.CaixaId) 
-                                                });
+            var Caixa = new CaixaObj {
+                                            Id = Globals.CaixaId,
+                                            OpenedAt = CurrentCaixa[0].OpenedAt,
+                                            ClosedAt = DateTime.Now.ToString("d/MM/yyyy h:mm:ss tt"),
+                                            Owner = CurrentCaixa[0].Owner,
+                                            IsOpen = "0",
+                                            StartValue = CurrentCaixa[0].StartValue,
+                                            TotalLancamentos = total_lancamentos,
+                                            Obs = CurrentCaixa[0].Obs,
+                                            EndValue = endvalue,
+                                            EndValueUser = endvalueuser.Replace("R$ ", ""),
+                                            Sangria = sangria,
+                                            Despesas = despesas,
+                                            Acrecimos = acrecimos,
+                                            OpenDate = CurrentCaixa[0].OpenDate
+            };
+
+            if (db.Update(Caixa) > 0)
+            {
+                return true;
+            }
+
+            return false;
         }
 
-        public DataTable GetCaixaInfo()
+
+        public List<CaixaObj> GetCaixaInfo(SQLiteConnection db)
         {
-            return SQLiteQueryHelper.QueryToDataTable("SELECT * FROM caixa WHERE isopen = 1;", null);
+            return db.Table<CaixaObj>().Where(t => t.IsOpen == "1").ToList();
         }
 
-        public DataTable GetCustomCaixaInfo(int CaixaId)
+
+        public List<CaixaObj> GetCustomCaixaInfo(SQLiteConnection db, int CaixaId)
         {
-            return SQLiteQueryHelper.QueryToDataTable("SELECT * FROM caixa WHERE id = @id;", new SQLiteParameter[] { new SQLiteParameter("@id", CaixaId) });
+            return db.Table<CaixaObj>().Where(t => t.Id == CaixaId).ToList();
         }
 
-        public DataTable GetCaixaValorInicial(int CaixaId)
+
+        public List<CaixaActivityObj> GetCaixaActivity(SQLiteConnection db, int CaixaId)
         {
-            return SQLiteQueryHelper.QueryToDataTable("SELECT startvalue FROM caixa WHERE id = @id;", new SQLiteParameter[] { new SQLiteParameter("@id", CaixaId) });
+            string ActivityQry = $"SELECT * FROM caixa_activity INNER JOIN caixa ON caixa.Id = caixa_activity.IdCaixa WHERE caixa.Id = " + CaixaId  + ";";
+            return db.Query<CaixaActivityObj>(ActivityQry);
         }
 
-        public DataTable GetCaixaActivity(int CaixaId)
+
+        public void SetCaixaObs(SQLiteConnection db, string Obs)
         {
-            return SQLiteQueryHelper.QueryToDataTable("SELECT * FROM caixa_activity INNER JOIN caixa ON caixa.id = caixa_activity.id_caixa WHERE caixa.id = @caixaid;", new SQLiteParameter[] { new SQLiteParameter("@caixaid", CaixaId) }); 
+            List<CaixaObj> CurrentCaixa = db.Table<CaixaObj>().Where(t => t.Id == Globals.CaixaId).ToList();
+
+            var Caixa = new CaixaObj
+            {
+                Id = Globals.CaixaId,
+                OpenedAt = CurrentCaixa[0].OpenedAt,
+                ClosedAt = CurrentCaixa[0].ClosedAt,
+                Owner = CurrentCaixa[0].Owner,
+                IsOpen = CurrentCaixa[0].IsOpen,
+                StartValue = CurrentCaixa[0].StartValue,
+                TotalLancamentos = CurrentCaixa[0].TotalLancamentos,
+                Obs = Obs,
+                EndValue = CurrentCaixa[0].EndValue,
+                EndValueUser = CurrentCaixa[0].EndValueUser,
+                Sangria = CurrentCaixa[0].Sangria,
+                Despesas = CurrentCaixa[0].Despesas,
+                Acrecimos = CurrentCaixa[0].Acrecimos,
+                OpenDate = CurrentCaixa[0].OpenDate
+            };
+
+            db.Update(Caixa);
         }
 
-        public DataTable SetCaixaObs(int CaixaId, string Obs)
+
+        public bool DeleteCaixaActivity(SQLiteConnection db, string ActivityId)
         {
-            return SQLiteQueryHelper.QueryToDataTable("UPDATE caixa SET obs = @obs WHERE id = @id;", new SQLiteParameter[] { new SQLiteParameter("@obs", Obs), new SQLiteParameter("@id", CaixaId) });
+            if (db.Delete<CaixaActivityObj>(ActivityId) > 0) return true; 
+            return false;
         }
 
-        public bool DeleteCaixaActivity(string ActivityId)
-        {
-            return SQLiteQueryHelper.ExecuteQuery("DELETE FROM caixa_activity WHERE id = @id;", new SQLiteParameter[] { new SQLiteParameter("@id", ActivityId) });
-        }
-
-        public bool AddCaixaActivity(int CaixaId, int Payment, int Direction, string Value, int Category, int Supply, string Type)
+        public bool AddCaixaActivity(SQLiteConnection db, int Payment, int Direction, string Value, int Category, int Supply, string Type)
         {
             Value = Value.Replace("R$ ", "");
 
             string sPayment = (Payment == 0) ? "Dinheiro" : (Payment == 1) ? "Cheque" : (Payment == 2) ? "Debito" : (Payment == 3) ? "PIX" : "Unknown";
             string sEntrada = (Direction == 2) ? Value : "";
-            string sSaida   = (Direction == 0 || Direction == 1) ? Value : "";
-            string Desc     = (Direction == 0) ? "Saida - Despesa" : (Direction == 1) ? "Saida - Sangria" : "Entrada - Acrecimo";
-
+            string sSaida = (Direction == 0 || Direction == 1) ? Value : "";
+            string Desc = (Direction == 0) ? "Saida - Despesa" : (Direction == 1) ? "Saida - Sangria" : "Entrada - Acrecimo";
             if (Direction == 3) { Desc = "Saldo Inicial"; sEntrada = Value; }
 
             try
             {
-                SQLiteQueryHelper.ExecuteQuery("INSERT INTO caixa_activity (id_caixa,dataehora,descricao,entrada,saida,formapgto,tipo,direction) VALUES (@id_caixa,@dataehora,@descricao,@entrada,@saida,@formapgto,@tipo,@direction);",
-                                            new SQLiteParameter[] {
-                                                new SQLiteParameter("@id_caixa", CaixaId),
-                                                new SQLiteParameter("@dataehora", DateTime.Now.ToString("d/MM/yyyy h:mm:ss tt")),
-                                                new SQLiteParameter("@descricao", Desc),
-                                                new SQLiteParameter("@entrada", sEntrada),
-                                                new SQLiteParameter("@saida", sSaida),
-                                                new SQLiteParameter("@formapgto", sPayment),
-                                                new SQLiteParameter("@tipo", Type),
-                                                new SQLiteParameter("@direction", Direction)
-                                            });
+                var CaixaActivity = new CaixaActivityObj()
+                {
+                    IdCaixa = Globals.CaixaId,
+                    DataHora = DateTime.Now.ToString("d/MM/yyyy h:mm:ss tt"),
+                    Descricao = Desc,
+                    Entrada = sEntrada,
+                    Saida = sSaida,
+                    FormaPgto = sPayment,
+                    Tipo = Type,
+                    IdPedido = "",
+                    Direction = Direction.ToString()
+                };
+
+                db.Insert(CaixaActivity);
                 return true;
 
-            } catch
+            } catch (Exception e)
             {
+                MessageBox.Show(e.Message);
                 return false;
             }
-            
-            
         }
-
     }
 }

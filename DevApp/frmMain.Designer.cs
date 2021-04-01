@@ -31,8 +31,8 @@ namespace DevApp
         {
             this.components = new System.ComponentModel.Container();
             DevExpress.Utils.Animation.PushTransition pushTransition1 = new DevExpress.Utils.Animation.PushTransition();
-            DevExpress.Utils.SuperToolTip superToolTip3 = new DevExpress.Utils.SuperToolTip();
-            DevExpress.Utils.ToolTipItem toolTipItem3 = new DevExpress.Utils.ToolTipItem();
+            DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
+            DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.barHeaderItem1 = new DevExpress.XtraBars.BarHeaderItem();
@@ -152,6 +152,7 @@ namespace DevApp
             this.RibbonMenuImages = new System.Windows.Forms.ImageList(this.components);
             this.documentManager1 = new DevExpress.XtraBars.Docking2010.DocumentManager(this.components);
             this.nativeMdiView1 = new DevExpress.XtraBars.Docking2010.Views.NativeMdi.NativeMdiView(this.components);
+            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemRibbonSearchEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemRibbonSearchEdit2)).BeginInit();
@@ -171,7 +172,7 @@ namespace DevApp
             // 
             // ribbon
             // 
-            this.ribbon.ApplicationButtonText = "DevApp";
+            this.ribbon.ApplicationButtonText = "Restaurante Chapa Kent";
             this.ribbon.BackColor = System.Drawing.Color.White;
             this.ribbon.Categories.AddRange(new DevExpress.XtraBars.BarManagerCategory[] {
             new DevExpress.XtraBars.BarManagerCategory("Ribbon", new System.Guid("7f317b4c-c7de-44f2-be99-029f72b5a7a9"))});
@@ -425,9 +426,9 @@ namespace DevApp
             this.btnShowCaixa.Name = "btnShowCaixa";
             this.btnShowCaixa.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large;
             this.btnShowCaixa.ShowItemShortcut = DevExpress.Utils.DefaultBoolean.False;
-            toolTipItem3.Text = "F3";
-            superToolTip3.Items.Add(toolTipItem3);
-            this.btnShowCaixa.SuperTip = superToolTip3;
+            toolTipItem1.Text = "F3";
+            superToolTip1.Items.Add(toolTipItem1);
+            this.btnShowCaixa.SuperTip = superToolTip1;
             this.btnShowCaixa.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnShowCaixa_ItemClick);
             // 
             // barCheckItem1
@@ -1104,6 +1105,15 @@ namespace DevApp
             this.nativeMdiView1.BackgroundImageLayoutMode = DevExpress.Utils.Drawing.ImageLayoutMode.Stretch;
             this.nativeMdiView1.Style = DevExpress.XtraBars.Docking2010.Views.DockingViewStyle.Classic;
             // 
+            // simpleButton1
+            // 
+            this.simpleButton1.Location = new System.Drawing.Point(971, 66);
+            this.simpleButton1.Name = "simpleButton1";
+            this.simpleButton1.Size = new System.Drawing.Size(75, 23);
+            this.simpleButton1.TabIndex = 3;
+            this.simpleButton1.Text = "simpleButton1";
+            this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
+            // 
             // frmMain
             // 
             this.AllowFormGlass = DevExpress.Utils.DefaultBoolean.True;
@@ -1113,6 +1123,7 @@ namespace DevApp
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1310, 702);
+            this.Controls.Add(this.simpleButton1);
             this.Controls.Add(this.ribbonStatusBar);
             this.Controls.Add(this.ribbon);
             this.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1124,7 +1135,7 @@ namespace DevApp
             this.RibbonVisibility = DevExpress.XtraBars.Ribbon.RibbonVisibility.Visible;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.StatusBar = this.ribbonStatusBar;
-            this.Text = "DevApp - Business Management";
+            this.Text = "DevApp - Restaurante Chapa Kent";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.frmMain_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();
@@ -1267,5 +1278,6 @@ namespace DevApp
         private DevExpress.XtraEditors.Repository.RepositoryItemDateTimeOffsetEdit repositoryItemDateTimeOffsetEdit1;
         private DevExpress.XtraBars.BarEditItem barEditItem10;
         private DevExpress.XtraEditors.Repository.RepositoryItemTimeEdit repositoryItemTimeEdit1;
+        private DevExpress.XtraEditors.SimpleButton simpleButton1;
     }
 }

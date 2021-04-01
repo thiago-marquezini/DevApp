@@ -21,20 +21,29 @@ using DevApp.Global;
 using DevApp.User_Forms;
 using DevApp.Child_Forms;
 using DevApp.PopUp_Forms;
-using DevApp.SQLite.Queries;
+using DevApp.SQLite;
 using DevApp.ComponentOverride;
 
 namespace DevApp
 {
     public partial class frmMain : DevExpress.XtraBars.Ribbon.RibbonForm
     {
+        public frmMain()
+        {
+            InitializeComponent();
+            SplashScreen();
+
+            ribbon.Minimized = true;
+            nativeMdiView1.BackgroundImage = Image.FromFile("C:\\Users\\Thiago\\Desktop\\DevApp\\Resouces\\bg.png");
+        }
+
         public void SplashScreen()
         {
             //Image myLogoImage = Resources.Logo;
             SplashScreenManager.ShowSkinSplashScreen(
                 //logoImage: myLogoImage,
                 title: "DevApp Business Management",
-                subtitle: "Opensource Restaurant Manager",
+                subtitle: "Open Source Restaurant Manager",
                 footer: "Copyright © 2021 DevApp Solucoes." + Environment.NewLine + "Todos os direitos reservados.",
                 loading: "Iniciando DevApp v1.3..",
                 parentForm: this
@@ -44,13 +53,15 @@ namespace DevApp
             DevExpress.XtraSplashScreen.SplashScreenManager.CloseForm();
         }
 
-        public frmMain()
+        private void frmMain_Load(object sender, EventArgs e)
         {
-            InitializeComponent();
-            SplashScreen();
+            SkinManager.EnableFormSkins();
+            SkinManager.EnableMdiFormSkins();
 
-            ribbon.Minimized = true;
-            nativeMdiView1.BackgroundImage = Image.FromFile("C:\\Users\\Thiago\\Desktop\\DevApp\\Resouces\\bg.png");
+            XtraLogin Login = new XtraLogin(this);
+            Login.Text = "Login de Usuario";
+            Login.WindowState = FormWindowState.Normal;
+            Login.ShowDialog(this);
         }
 
         public void ShowCurrentCaixa()
@@ -65,7 +76,7 @@ namespace DevApp
         public void ShowCustomCaixa(int CaixaId)
         {
             XtraMDICaixaManager CAIXA = new XtraMDICaixaManager(true, CaixaId);
-            CAIXA.Text = "Historico - Caixa de Thiago Marquezini - Id: " + CaixaId.ToString();
+            CAIXA.Text = "Historico - Caixa de " + LogginedUser.DisplayName + " - Id: " + CaixaId.ToString();
             CAIXA.WindowState = FormWindowState.Normal;
             CAIXA.MdiParent = this;
             CAIXA.Show();
@@ -75,17 +86,6 @@ namespace DevApp
         {
             lblLogginedUser.Caption = "<b>Usuario</b>: " + LogginedUser.DisplayName;
             ribbon.Minimized = false;
-        }
-
-        private void frmMain_Load(object sender, EventArgs e)
-        {
-            SkinManager.EnableFormSkins();
-            SkinManager.EnableMdiFormSkins();
-
-            XtraLogin Login = new XtraLogin(this);
-            Login.Text = "Login de Usuario";
-            Login.WindowState = FormWindowState.Normal;
-            Login.ShowDialog(this);
         }
 
         private void barEditItem5_EditValueChanged(object sender, EventArgs e)
@@ -143,6 +143,12 @@ namespace DevApp
         private void btnPedidoCaixa_ItemClick(object sender, ItemClickEventArgs e)
         {
 
+        }
+
+        private void simpleButton1_Click(object sender, EventArgs e)
+        {
+            SQLiteCipher TestConn = new SQLiteCipher();
+            TestConn.SetupDB();
         }
     }
 }

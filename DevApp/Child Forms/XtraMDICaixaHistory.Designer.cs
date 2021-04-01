@@ -160,7 +160,7 @@ namespace DevApp.Child_Forms
             this.clnHistId.AppearanceCell.Options.UseTextOptions = true;
             this.clnHistId.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
             this.clnHistId.Caption = "Id";
-            this.clnHistId.FieldName = "id";
+            this.clnHistId.FieldName = "Id";
             this.clnHistId.Name = "clnHistId";
             this.clnHistId.Visible = true;
             this.clnHistId.VisibleIndex = 0;
@@ -171,7 +171,7 @@ namespace DevApp.Child_Forms
             this.Status.AppearanceCell.Options.UseTextOptions = true;
             this.Status.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
             this.Status.Caption = "Status";
-            this.Status.FieldName = "isopen";
+            this.Status.FieldName = "IsOpen";
             this.Status.Name = "Status";
             this.Status.Visible = true;
             this.Status.VisibleIndex = 1;
@@ -180,7 +180,7 @@ namespace DevApp.Child_Forms
             // gridColumn3
             // 
             this.gridColumn3.Caption = "Aberto Em";
-            this.gridColumn3.FieldName = "openedat";
+            this.gridColumn3.FieldName = "OpenedAt";
             this.gridColumn3.Name = "gridColumn3";
             this.gridColumn3.Visible = true;
             this.gridColumn3.VisibleIndex = 2;
@@ -189,7 +189,7 @@ namespace DevApp.Child_Forms
             // gridColumn4
             // 
             this.gridColumn4.Caption = "Fechado Em";
-            this.gridColumn4.FieldName = "closedat";
+            this.gridColumn4.FieldName = "ClosedAt";
             this.gridColumn4.Name = "gridColumn4";
             this.gridColumn4.Visible = true;
             this.gridColumn4.VisibleIndex = 3;
@@ -198,7 +198,7 @@ namespace DevApp.Child_Forms
             // gridColumn5
             // 
             this.gridColumn5.Caption = "Saldo Inicial";
-            this.gridColumn5.FieldName = "startvalue";
+            this.gridColumn5.FieldName = "StartValue";
             this.gridColumn5.Name = "gridColumn5";
             this.gridColumn5.Visible = true;
             this.gridColumn5.VisibleIndex = 4;
@@ -207,7 +207,7 @@ namespace DevApp.Child_Forms
             // gridColumn6
             // 
             this.gridColumn6.Caption = "Saldo Final";
-            this.gridColumn6.FieldName = "endvalue";
+            this.gridColumn6.FieldName = "EndValue";
             this.gridColumn6.Name = "gridColumn6";
             this.gridColumn6.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
             new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "endvalue", "{0:c}")});
@@ -218,7 +218,7 @@ namespace DevApp.Child_Forms
             // gridColumn7
             // 
             this.gridColumn7.Caption = "S. Final Informado";
-            this.gridColumn7.FieldName = "endvalueuser";
+            this.gridColumn7.FieldName = "EndValueUser";
             this.gridColumn7.Name = "gridColumn7";
             this.gridColumn7.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
             new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "endvalueuser", "{0:c}")});
@@ -229,7 +229,7 @@ namespace DevApp.Child_Forms
             // gridColumn8
             // 
             this.gridColumn8.Caption = "Sangria";
-            this.gridColumn8.FieldName = "sangria";
+            this.gridColumn8.FieldName = "Sangria";
             this.gridColumn8.Name = "gridColumn8";
             this.gridColumn8.Visible = true;
             this.gridColumn8.VisibleIndex = 7;
@@ -238,7 +238,7 @@ namespace DevApp.Child_Forms
             // gridColumn9
             // 
             this.gridColumn9.Caption = "Despesas";
-            this.gridColumn9.FieldName = "despesas";
+            this.gridColumn9.FieldName = "Despesas";
             this.gridColumn9.Name = "gridColumn9";
             this.gridColumn9.Visible = true;
             this.gridColumn9.VisibleIndex = 8;
@@ -247,7 +247,7 @@ namespace DevApp.Child_Forms
             // gridColumn10
             // 
             this.gridColumn10.Caption = "Acrecimos";
-            this.gridColumn10.FieldName = "acrecimos";
+            this.gridColumn10.FieldName = "Acrecimos";
             this.gridColumn10.Name = "gridColumn10";
             this.gridColumn10.Visible = true;
             this.gridColumn10.VisibleIndex = 9;
