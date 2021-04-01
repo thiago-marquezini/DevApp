@@ -1,19 +1,10 @@
 ﻿using DevExpress.XtraBars;
 using DevExpress.XtraEditors;
-using DevExpress.XtraBars.Localization;
-using DevExpress.XtraBars.Docking2010;
-using DevExpress.XtraBars.Docking2010.Views.NativeMdi;
 using DevExpress.XtraSplashScreen;
 using DevExpress.Skins;
 using System;
 using System.Threading;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
@@ -22,7 +13,6 @@ using DevApp.User_Forms;
 using DevApp.Child_Forms;
 using DevApp.PopUp_Forms;
 using DevApp.SQLite;
-using DevApp.ComponentOverride;
 
 namespace DevApp
 {
