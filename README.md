@@ -14,7 +14,7 @@ Requerimentos:
 
 - C#
 - DevExpress WinForms Suite
-- SQLite
+- SQLite: sqlite-net-sqlcipher
 - NetFramework 4.5
 - Visual Studio 2019 (possivel converter para versoes anteriores)
 
