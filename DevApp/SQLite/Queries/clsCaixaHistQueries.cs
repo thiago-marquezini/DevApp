@@ -18,7 +18,7 @@ namespace DevApp.SQLite
 
         public List<CaixaObj> ListarPorPeriodo(SQLiteConnection db, string DateInicio, string DateFinal)
         {
-            string PeriodQry = $"SELECT * FROM caixa WHERE opendate BETWEEN " + DateInicio + " AND " + DateFinal + " ORDER BY id DESC;";
+            string PeriodQry = $"SELECT * FROM caixa WHERE OpenDate BETWEEN '" + DateInicio + "' AND '" + DateFinal + "' ORDER BY Id DESC;";
             return db.Query<CaixaObj>(PeriodQry);
 
         }

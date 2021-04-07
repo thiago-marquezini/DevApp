@@ -222,5 +222,10 @@ namespace DevApp.Child_Forms
         {
             FiltrarCaixas(Int32.Parse(radioCaixaLogPesquisa.EditValue.ToString()));
         }
+
+        private void XtraMDICaixaHistory_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            CaixaHistConnection.Connection().Close();
+        }
     }
 }

@@ -396,6 +396,7 @@ namespace DevApp.Child_Forms
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Historico de Abertura e Fechamento de Caixa";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.XtraMDICaixaHistory_FormClosing);
             this.Load += new System.EventHandler(this.XtraMDICaixaHistory_Load);
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
             this.panelControl2.ResumeLayout(false);

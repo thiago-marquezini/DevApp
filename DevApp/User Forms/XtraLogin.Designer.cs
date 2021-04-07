@@ -183,6 +183,7 @@ namespace DevApp.User_Forms
             this.Controls.Add(this.svgImageBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "XtraLogin";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login de Usuario";
             ((System.ComponentModel.ISupportInitialize)(this.svgImageBox1)).EndInit();

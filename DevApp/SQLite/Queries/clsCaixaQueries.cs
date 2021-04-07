@@ -146,9 +146,9 @@ namespace DevApp.SQLite
 
             string sPayment = (Payment == 0) ? "Dinheiro" : (Payment == 1) ? "Cheque" : (Payment == 2) ? "Debito" : (Payment == 3) ? "PIX" : "Unknown";
             string sEntrada = (Direction == 2) ? Value : "";
-            string sSaida = (Direction == 0 || Direction == 1) ? Value : "";
-            string Desc = (Direction == 0) ? "Saida - Despesa" : (Direction == 1) ? "Saida - Sangria" : "Entrada - Acrecimo";
-            if (Direction == 3) { Desc = "Saldo Inicial"; sEntrada = Value; }
+            string sSaida   = (Direction == 0 || Direction == 1) ? Value : "";
+            string Desc     = (Direction == 0) ? "Saida - Despesa" : (Direction == 1) ? "Saida - Sangria" : "Entrada - Acrecimo";
+            if (Direction   == 3) { Desc = "Saldo Inicial"; sEntrada = Value; }
 
             try
             {

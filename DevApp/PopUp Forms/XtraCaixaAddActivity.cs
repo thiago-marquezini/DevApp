@@ -68,5 +68,10 @@ namespace DevApp.PopUp_Forms
         private void editValorActivity_EditValueChanged(object sender, EventArgs e)
         {
         }
+
+        private void XtraCaixaAddActivity_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            CaixaAddActConnection.Connection().Close();
+        }
     }
 }

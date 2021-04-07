@@ -100,6 +100,7 @@ namespace DevApp.Child_Forms
 
                 txtCaixaSaldoInicial.Text = cCaixaInfo[0].StartValue;
                 lblCaixaOpenTime.Text = cCaixaInfo[0].OpenedAt;
+                lblCaixaCloseTime.Text = cCaixaInfo[0].ClosedAt;
                 memoCaixaObs.Text = cCaixaInfo[0].Obs;
             }
         }
@@ -114,6 +115,7 @@ namespace DevApp.Child_Forms
 
                 txtCaixaSaldoInicial.Text = CaixaInfo[0].StartValue;
                 lblCaixaOpenTime.Text = CaixaInfo[0].OpenedAt;
+                lblCaixaCloseTime.Text = "Caixa Aberto";
                 memoCaixaObs.Text = CaixaInfo[0].Obs;
             }
         }
@@ -450,6 +452,9 @@ namespace DevApp.Child_Forms
 
                 BuildCaixaReceipt();
 
+                Thread.Sleep(500);
+                this.Close();
+
                 goto Exit;
 
 
@@ -475,6 +480,9 @@ namespace DevApp.Child_Forms
 
                 BuildCaixaReceipt();
 
+                Thread.Sleep(500);
+                this.Close();
+
                 goto Exit;
 
             Exit:
@@ -498,6 +506,7 @@ namespace DevApp.Child_Forms
                     btnDeleteActivity.Enabled = true;
                     panelCaixaStateColor.BackColor = Color.PaleGreen;
                     lblCaixaState.Text = "Caixa Aberto";
+                    lblCaixaCloseTime.Text = "Caixa Aberto";
 
                     GetCurrentCaixaInfo();
                     GetCaixaActivity();
@@ -618,11 +627,8 @@ namespace DevApp.Child_Forms
             {
                 CaixaQueries.SetCaixaObs(CaixaConnection.Connection(), memoCaixaObs.Text);
             }
-        }
 
-        private void simpleButton1_Click(object sender, EventArgs e)
-        {
-            
+            CaixaConnection.Connection().Close();
         }
     }
 }

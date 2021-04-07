@@ -236,6 +236,7 @@ namespace DevApp.PopUp_Forms
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Adicionar Entrada / Saida";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.XtraCaixaAddActivity_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
             this.panelControl1.PerformLayout();

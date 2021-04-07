@@ -93,6 +93,12 @@
     <Reference Include="DevExpress.XtraTreeList.v20.2, Version=20.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraVerticalGrid.v20.2, Version=20.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraWizard.v20.2, Version=20.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="Dropbox.Api, Version=6.2.0.0, Culture=neutral, PublicKeyToken=310f0e82fbb45d01, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dropbox.Api.6.2.0\lib\netstandard2.0\Dropbox.Api.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="SQLite-net, Version=1.7.335.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\sqlite-net-sqlcipher.1.7.335\lib\netstandard2.0\SQLite-net.dll</HintPath>
     </Reference>
@@ -124,6 +130,7 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -147,10 +154,14 @@
     <Compile Include="Child Forms\XtraMDICaixaManager.Designer.cs">
       <DependentUpon>XtraMDICaixaManager.cs</DependentUpon>
     </Compile>
+    <Compile Include="Child Forms\XtraMDIProdutos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Child Forms\XtraMDIProdutos.Designer.cs">
+      <DependentUpon>XtraMDIProdutos.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataSource Classes\clsDSCaixaResumo.cs" />
     <Compile Include="Global\Globals.cs" />
-    <Compile Include="Helpers\BackgroundImageHelper.cs" />
-    <Compile Include="Overrides\CustomBarLocalizer.cs" />
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -175,14 +186,22 @@
     <Compile Include="PopUp Forms\XtraFinanceiroCategDespesas.Designer.cs">
       <DependentUpon>XtraFinanceiroCategDespesas.cs</DependentUpon>
     </Compile>
+    <Compile Include="PopUp Forms\XtraProductAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PopUp Forms\XtraProductAdd.Designer.cs">
+      <DependentUpon>XtraProductAdd.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLite\Queries\clsCaixaHistQueries.cs" />
     <Compile Include="SQLite\Queries\clsCaixaQueries.cs" />
+    <Compile Include="SQLite\Queries\clsProductQueries.cs" />
     <Compile Include="SQLite\Queries\clsUserQueries.cs" />
     <Compile Include="SQLite\SQLiteCipher.cs" />
     <Compile Include="SQLite\Table Objects\CaixaActivityObj.cs" />
     <Compile Include="SQLite\Table Objects\CaixaObj.cs" />
+    <Compile Include="SQLite\Table Objects\ProductObj.cs" />
     <Compile Include="SQLite\Table Objects\UserObj.cs" />
     <Compile Include="Threads\clsCaixaThreads.cs" />
     <Compile Include="User Forms\WaitForm1.cs">
@@ -215,6 +234,9 @@
     <EmbeddedResource Include="Child Forms\XtraMDICaixaManager.resx">
       <DependentUpon>XtraMDICaixaManager.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Child Forms\XtraMDIProdutos.resx">
+      <DependentUpon>XtraMDIProdutos.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -226,6 +248,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PopUp Forms\XtraFinanceiroCategDespesas.resx">
       <DependentUpon>XtraFinanceiroCategDespesas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PopUp Forms\XtraProductAdd.resx">
+      <DependentUpon>XtraProductAdd.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">

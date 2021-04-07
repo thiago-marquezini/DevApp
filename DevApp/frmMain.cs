@@ -31,11 +31,11 @@ namespace DevApp
         {
             //Image myLogoImage = Resources.Logo;
             SplashScreenManager.ShowSkinSplashScreen(
-                //logoImage: myLogoImage,
+                //logoImage: Image.FromFile("C:\\Users\\Thiago\\Desktop\\DevApp\\Resouces\\Splash.png"),
                 title: "DevApp Business Management",
                 subtitle: "Open Source Restaurant Manager",
                 footer: "Copyright © 2021 DevApp Solucoes." + Environment.NewLine + "Todos os direitos reservados.",
-                loading: "Iniciando DevApp v1.3..",
+                loading: "Iniciando DevApp v1.0..",
                 parentForm: this
             );
 
@@ -139,6 +139,16 @@ namespace DevApp
         {
             SQLiteCipher TestConn = new SQLiteCipher();
             TestConn.SetupDB();
+        }
+
+        private void barButtonItem15_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            
+            XtraMDIProdutos CAIXA = new XtraMDIProdutos();
+            CAIXA.Text = "Gerenciador de Produtos, Complementos e Adicionais";
+            CAIXA.WindowState = FormWindowState.Normal;
+            CAIXA.MdiParent = this;
+            CAIXA.Show();
         }
     }
 }

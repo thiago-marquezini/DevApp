@@ -43,7 +43,7 @@ namespace DevApp.Child_Forms
             this.colformapgto = new DevExpress.XtraGrid.Columns.GridColumn();
             this.coltipo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.sidePanel1 = new DevExpress.XtraEditors.SidePanel();
-            this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
+            this.lblCaixaCloseTime = new DevExpress.XtraEditors.LabelControl();
             this.labelControl5 = new DevExpress.XtraEditors.LabelControl();
             this.txtCaixaSaldoInicial = new DevExpress.XtraEditors.TextEdit();
             this.lblCaixaOpenTime = new DevExpress.XtraEditors.LabelControl();
@@ -63,7 +63,6 @@ namespace DevApp.Child_Forms
             this.clnRecordDescription = new DevExpress.XtraGrid.Columns.GridColumn();
             this.clnRecordValue = new DevExpress.XtraGrid.Columns.GridColumn();
             this.txtCalcText = new DevExpress.XtraEditors.TextEdit();
-            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.gridCaixaActivity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewCaixaActivity)).BeginInit();
             this.sidePanel1.SuspendLayout();
@@ -209,7 +208,7 @@ namespace DevApp.Child_Forms
             // 
             this.sidePanel1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.sidePanel1.Appearance.Options.UseBackColor = true;
-            this.sidePanel1.Controls.Add(this.labelControl3);
+            this.sidePanel1.Controls.Add(this.lblCaixaCloseTime);
             this.sidePanel1.Controls.Add(this.labelControl5);
             this.sidePanel1.Controls.Add(this.txtCaixaSaldoInicial);
             this.sidePanel1.Controls.Add(this.lblCaixaOpenTime);
@@ -226,15 +225,15 @@ namespace DevApp.Child_Forms
             this.sidePanel1.TabIndex = 23;
             this.sidePanel1.Text = "Caixa Fechado";
             // 
-            // labelControl3
+            // lblCaixaCloseTime
             // 
-            this.labelControl3.Appearance.ForeColor = System.Drawing.Color.White;
-            this.labelControl3.Appearance.Options.UseForeColor = true;
-            this.labelControl3.Location = new System.Drawing.Point(21, 517);
-            this.labelControl3.Name = "labelControl3";
-            this.labelControl3.Size = new System.Drawing.Size(71, 13);
-            this.labelControl3.TabIndex = 37;
-            this.labelControl3.Text = "Caixa Fechado";
+            this.lblCaixaCloseTime.Appearance.ForeColor = System.Drawing.Color.White;
+            this.lblCaixaCloseTime.Appearance.Options.UseForeColor = true;
+            this.lblCaixaCloseTime.Location = new System.Drawing.Point(21, 517);
+            this.lblCaixaCloseTime.Name = "lblCaixaCloseTime";
+            this.lblCaixaCloseTime.Size = new System.Drawing.Size(71, 13);
+            this.lblCaixaCloseTime.TabIndex = 37;
+            this.lblCaixaCloseTime.Text = "Caixa Fechado";
             // 
             // labelControl5
             // 
@@ -490,21 +489,11 @@ namespace DevApp.Child_Forms
             this.txtCalcText.TabIndex = 36;
             this.txtCalcText.Visible = false;
             // 
-            // simpleButton1
-            // 
-            this.simpleButton1.Location = new System.Drawing.Point(873, 511);
-            this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.Size = new System.Drawing.Size(75, 26);
-            this.simpleButton1.TabIndex = 37;
-            this.simpleButton1.Text = "simpleButton1";
-            this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
-            // 
             // XtraMDICaixaManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1131, 551);
-            this.Controls.Add(this.simpleButton1);
             this.Controls.Add(this.txtCalcText);
             this.Controls.Add(this.panelCaixaReceipt);
             this.Controls.Add(this.btnPrintResumoCaixa);
@@ -570,8 +559,7 @@ namespace DevApp.Child_Forms
         private DevExpress.XtraGrid.Columns.GridColumn clnRecordDescription;
         private DevExpress.XtraGrid.Columns.GridColumn clnRecordValue;
         private DevExpress.XtraEditors.TextEdit txtCalcText;
-        private DevExpress.XtraEditors.LabelControl labelControl3;
+        private DevExpress.XtraEditors.LabelControl lblCaixaCloseTime;
         private DevExpress.XtraEditors.LabelControl labelControl5;
-        private DevExpress.XtraEditors.SimpleButton simpleButton1;
     }
 }
