@@ -15,7 +15,7 @@ Requerimentos:
 - C#
 - DevExpress WinForms Suite
 - SQLite: @sqlite-net-sqlcipher
-- NetFramework 4.5
+- NetFramework 4.5 (possivel utilizar versoes anteriores)
 - Visual Studio 2019 (possivel converter para versoes anteriores)
 
 [*] Programa em Desenvolvimento [*]
